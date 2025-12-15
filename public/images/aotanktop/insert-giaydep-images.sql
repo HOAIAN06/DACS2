@@ -1,0 +1,12 @@
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-nam-strike-zone-mesh-1.jpg', 1 FROM products WHERE slug = 'ao-tanktop-nam-strike-zone-mesh';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-nam-strike-zone-mesh-2.jpg', 0 FROM products WHERE slug = 'ao-tanktop-nam-strike-zone-mesh';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-luoi-nam-hoa-tiet-sundaze-rush-1.jpg', 1 FROM products WHERE slug = 'ao-tanktop-luoi-nam-hoa-tiet-sundaze-rush';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-luoi-nam-hoa-tiet-sundaze-rush-2.jpg', 0 FROM products WHERE slug = 'ao-tanktop-luoi-nam-hoa-tiet-sundaze-rush';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-nam-in-noi-strokes-orgnls-1.jpg', 1 FROM products WHERE slug = 'ao-tanktop-nam-in-noi-strokes-orgnls';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-nam-in-noi-strokes-orgnls-2.jpg', 0 FROM products WHERE slug = 'ao-tanktop-nam-in-noi-strokes-orgnls';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tank-top-nam-rust-1.jpg', 1 FROM products WHERE slug = 'ao-tank-top-nam-rust';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tank-top-nam-rust-2.jpg', 0 FROM products WHERE slug = 'ao-tank-top-nam-rust';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-nam-sticker-id-1.jpg', 1 FROM products WHERE slug = 'ao-tanktop-nam-sticker-id';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-nam-sticker-id-2.jpg', 0 FROM products WHERE slug = 'ao-tanktop-nam-sticker-id';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-nam-daily-tank-1.jpg', 1 FROM products WHERE slug = 'ao-tanktop-nam-daily-tank';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/aotanktop/ao-tanktop-nam-daily-tank-2.jpg', 0 FROM products WHERE slug = 'ao-tanktop-nam-daily-tank';

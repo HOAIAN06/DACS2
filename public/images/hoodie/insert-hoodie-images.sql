@@ -1,0 +1,14 @@
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-khoac-hoodie-zip-nam-mixing-horizontal-stripes-1.jpg', 1 FROM products WHERE slug = 'ao-khoac-hoodie-zip-nam-mixing-horizontal-stripes';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-khoac-hoodie-zip-nam-mixing-horizontal-stripes-2.jpg', 0 FROM products WHERE slug = 'ao-khoac-hoodie-zip-nam-mixing-horizontal-stripes';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-hoodie-nam-ni-explore-1.jpg', 1 FROM products WHERE slug = 'ao-hoodie-nam-ni-explore';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-hoodie-nam-ni-explore-2.jpg', 0 FROM products WHERE slug = 'ao-hoodie-nam-ni-explore';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-khoac-nam-hoodie-zip-orgnls-1.jpg', 1 FROM products WHERE slug = 'ao-khoac-nam-hoodie-zip-orgnls';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-khoac-nam-hoodie-zip-orgnls-2.jpg', 0 FROM products WHERE slug = 'ao-khoac-nam-hoodie-zip-orgnls';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-hoodie-nam-hoa-tiet-mickey-friends-shinning-time-1.jpg', 1 FROM products WHERE slug = 'ao-hoodie-nam-hoa-tiet-mickey-friends-shinning-time';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-hoodie-nam-hoa-tiet-mickey-friends-shinning-time-2.jpg', 0 FROM products WHERE slug = 'ao-hoodie-nam-hoa-tiet-mickey-friends-shinning-time';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-hoodie-nam-orgnls-typography-with-tape-1.jpg', 1 FROM products WHERE slug = 'ao-hoodie-nam-orgnls-typography-with-tape';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-hoodie-nam-orgnls-typography-with-tape-2.jpg', 0 FROM products WHERE slug = 'ao-hoodie-nam-orgnls-typography-with-tape';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-hoodie-nam-spiritual-quotes-1.jpg', 1 FROM products WHERE slug = 'ao-hoodie-nam-spiritual-quotes';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-hoodie-nam-spiritual-quotes-2.jpg', 0 FROM products WHERE slug = 'ao-hoodie-nam-spiritual-quotes';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-khoac-hoodie-nam-orgnls-hand-drawn-chain-stitch-lettering-1.jpg', 1 FROM products WHERE slug = 'ao-khoac-hoodie-nam-orgnls-hand-drawn-chain-stitch-lettering';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/hoodie/ao-khoac-hoodie-nam-orgnls-hand-drawn-chain-stitch-lettering-2.jpg', 0 FROM products WHERE slug = 'ao-khoac-hoodie-nam-orgnls-hand-drawn-chain-stitch-lettering';

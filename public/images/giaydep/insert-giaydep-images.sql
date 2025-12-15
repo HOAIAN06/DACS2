@@ -1,0 +1,6 @@
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/giaydep/dep-nam-easy-strap-slides-1.jpg', 1 FROM products WHERE slug = 'dep-nam-easy-strap-slides';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/giaydep/dep-nam-easy-strap-slides-2.jpg', 0 FROM products WHERE slug = 'dep-nam-easy-strap-slides';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/giaydep/dep-e-cao-su-nam-quai-ngang-da-1.jpg', 1 FROM products WHERE slug = 'dep-e-cao-su-nam-quai-ngang-da';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/giaydep/dep-e-cao-su-nam-quai-ngang-da-2.jpg', 0 FROM products WHERE slug = 'dep-e-cao-su-nam-quai-ngang-da';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/giaydep/dep-e-trau-nam-quai-ngang-da-lon-minimal-contemporary-1.jpg', 1 FROM products WHERE slug = 'dep-e-trau-nam-quai-ngang-da-lon-minimal-contemporary';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/giaydep/dep-e-trau-nam-quai-ngang-da-lon-minimal-contemporary-2.jpg', 0 FROM products WHERE slug = 'dep-e-trau-nam-quai-ngang-da-lon-minimal-contemporary';

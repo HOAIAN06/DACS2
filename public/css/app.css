@@ -1,0 +1,886 @@
+/* ===========================
+   HANZO – PREMIUM MINIMAL THEME
+   =========================== */
+
+/* Font từ Google (Poppins + Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap');
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY / GLOBAL 
+   (sẽ được override bên dưới cho theme icondenim)
+*/
+body {
+    background: #ffffff;
+    color: #1A1A1A;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+}
+
+/* Fix container của bootstrap cho cảm giác gọn hơn */
+.container {
+    max-width: 1200px;
+}
+
+/* ===========================
+   HEADER
+   =========================== */
+.hz-header {
+    background: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.hz-logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    letter-spacing: 4px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* NAVIGATION */
+.hz-nav a {
+    color: #6B7280;
+    text-decoration: none;
+    margin-left: 22px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.hz-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #111827;
+    transition: width .2s ease;
+}
+
+.hz-nav a:hover,
+.hz-nav a.active {
+    color: #111827;
+}
+
+.hz-nav a:hover::after,
+.hz-nav a.active::after {
+    width: 100%;
+}
+
+/* ===========================
+   BUTTONS
+   =========================== */
+.hz-btn-primary {
+    background: linear-gradient(135deg, #111827, #1e293b);
+    border-radius: 999px;
+    padding: 12px 30px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.hz-btn-primary:hover {
+    background: linear-gradient(135deg, #1F2937, #374151);
+    box-shadow: 0 10px 25px rgba(15,23,42,0.25);
+}
+
+.hz-btn-outline {
+    border-radius: 999px;
+    padding: 12px 26px;
+    border: 1px solid #cbd5f5;
+    background: #f9fafb;
+    color: #111827;
+}
+
+.hz-btn-outline:hover {
+    background: #e5edff;
+}
+
+/* ===========================
+   HERO SECTION
+   =========================== */
+.hz-hero {
+    padding: 70px 0 50px;
+}
+
+.hz-hero-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: -0.04em;   /* chữ sát lại, nhìn high-end hơn */
+    color: #0f172a;
+}
+
+.hz-hero-title span {
+    display: block;
+    color: #4b5563;
+    font-weight: 500;
+}
+
+.hz-hero-sub {
+    font-size: 14px;
+    color: #6B7280;
+    max-width: 440px;
+}
+
+.hz-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #E5E7EB;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: #6B7280;
+    background: #FFFFFF;
+}
+
+/* Hero card bên phải */
+.hz-card {
+    background: #FFFFFF;
+    border-radius: 18px;
+    border: 1px solid #E5E7EB;
+    padding: 16px;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.hz-card:hover {
+    transform: translateY(-4px);
+    border-color: #D1D5DB;
+    box-shadow: 0 18px 40px rgba(148,163,184,0.25);
+}
+
+.hz-card-thumb {
+    width: 100%;
+    padding-top: 120%;
+    border-radius: 14px;
+    background: #F3F4F6;
+    margin-bottom: 10px;
+}
+
+/* card category dùng thumb nhỏ hơn */
+.hz-card-thumb--category {
+    padding-top: 80%;
+}
+
+/* Giá sản phẩm */
+.hz-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.hz-price-old {
+    font-size: 11px;
+    text-decoration: line-through;
+    color: #9CA3AF;
+    margin-left: 6px;
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+.hz-footer {
+    border-top: 1px solid #E5E7EB;
+    background: #FFFFFF;
+    font-size: 12px;
+    color: #9CA3AF;
+}
+
+.hz-footer-sub {
+    font-size: 11px;
+    color: #9CA3AF;
+}
+
+/* ===========================
+   CATEGORY TABS - ICONDENIM STYLE
+   =========================== */
+.cat-tab {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Active state: text đen, border đen */
+.cat-tab.active,
+.cat-tab.!text-slate-900 {
+    color: #111827 !important;
+}
+
+.cat-tab.!border-slate-900 {
+    border-bottom-color: #111827 !important;
+}
+
+/* Hover effect */
+.cat-tab:hover {
+    color: #111827;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 767.98px) {
+    .hz-hero {
+        padding-top: 32px;
+    }
+
+    .hz-hero-title {
+        font-size: 30px;
+    }
+
+    .hz-nav a {
+        color: #6b7280;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .hz-nav a::after {
+        background: #111827; /* navy đậm */
+    }
+}
+
+/* ===========================
+   HANZO - ICONDENIM THEME OVERRIDE
+   (áp dụng cho trang đỏ-đen hiện tại)
+   =========================== */
+
+/* HANZO – NỀN ĐỎ TƯƠI THEO ICONDENIM */
+/* BODY / GLOBAL (mặc định, nếu không dùng theme đỏ) */
+body {
+    background: linear-gradient(180deg, #f4f1eb 0%, #f7f7fb 45%, #ffffff 100%);
+    color: #1A1A1A;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+}
+
+
+
+
+/* Container mới cho HANZO – cho card bớt chật, rộng kiểu icondenim */
+.hanzo-container {
+    max-width: 1500px;   /* muốn rộng nữa có thể tăng 1550–1600 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Dùng cho tiêu đề sản phẩm 2 dòng (đã dùng trong Blade) */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+/* Gradient nền đỏ tươi giống ICONDENIM */
+/* HANZO – NỀN XANH SAGE THEO ICONDENIM (áp dụng khi body có class hanzo-bg-red) */
+body.hanzo-bg-red {
+     background:
+        /* Hiệu ứng sáng nhẹ ở giữa đầu trang */
+        radial-gradient(circle at 50% 0%, #d4d4a8 0%, rgba(212,212,168,0) 60%),
+        /* Gradient dọc từ xanh sage nhạt → xanh sage đậm */
+        linear-gradient(180deg,
+            #d4d4a8 0%,
+            #ccc996 15%,
+            #c2bf80 35%,
+            #a8a570 55%,
+            #909055 75%,
+            #6b6b3d 90%,
+            #4a4a2a 100%
+        );
+    background-attachment: fixed;
+    background-color: #4a4a2a; /* fallback */
+    color: #1a1a1a !important;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+#hz-quickview {
+    display: none;
+}
+#hz-quickview.hz-qv-open {
+    display: flex;
+}
+body.hz-modal-open {
+    overflow: hidden;
+}
+/* ======================
+   HANZO HEADER BRAND
+   ====================== */
+
+.hz-brand-title {
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 20px;           /* to hơn chút cho ra dáng brand */
+    font-weight: 600;
+    letter-spacing: 0.45em;    /* chữ cách rộng như ICONDENIM */
+    text-transform: uppercase;
+    color: #060b18;            /* đen hơi xanh, sang hơn #000 */
+}
+.hz-brand-tagline {
+    margin-top: 2px;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.26em;    /* tracking rộng, nhìn “luxury” */
+    color: #9ca3af;            /* xám nhạt giống web mẫu */
+}
+
+.hz-brand-subtitle {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #9CA3AF;
+}
+/* ===== Header HANZO giống ICONDENIM ===== */
+
+.hz-brand-name {
+    font-family: 'Poppins', system-ui, sans-serif;
+    letter-spacing: 0.35em;       /* chữ H A N Z O giãn giống mẫu */
+}
+
+.hz-tagline {
+    font-family: 'Inter', system-ui, sans-serif;
+    letter-spacing: 0.30em;
+}
+
+/* Menu chính */
+.hz-main-nav {
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.04em;      /* chữ hơi cách nhẹ giống web mẫu */
+    color: #070b16;              /* đen hơi xanh, sang hơn #000 */
+}
+.hz-main-nav a:hover,
+.hz-main-nav button:hover {
+    color: #000000;
+}
+
+/* ===========================
+   MEGAMENU (bảng dropdown)
+   =========================== */
+
+.hz-megamenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    /* transform: translateX(-50%); */
+    margin-top: 0;
+    padding: 28px 36px;
+    min-width: 900px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e5e7eb;
+    z-index: 40;
+    transition: opacity .18s ease;
+
+}
+
+/* giữ menu không bị mất khi di chuột xuống bảng */
+.hz-main-nav .group:hover > .hz-megamenu {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Tiêu đề cột trong megamenu */
+.hz-megamenu-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+/* List link trong megamenu */
+.hz-megamenu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hz-megamenu-list li + li {
+    margin-top: 8px;
+}
+
+.hz-megamenu-list a {
+    font-size: 15px;
+    font-weight: 400;
+    color: #111827;
+    text-decoration: none;
+}
+
+.hz-megamenu-list a:hover {
+    color: #e11b22;
+}
+.hz-megamenu::before {
+    content: '';
+    position: absolute;
+    top: -14px;             /* độ cao “cầu nối” (14px) – có thể chỉnh 10–16 nếu muốn */
+    left: 0;
+    right: 0;
+    height: 14px;
+    background: transparent;
+}
+/* ===========================
+   MAIN NAV (menu trên)
+   =========================== */
+
+/* Container menu chính */
+.hz-main-nav {
+    column-gap: 3rem; /* giãn chữ giống web mẫu */
+}
+
+.hz-main-nav {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.hz-main-link {
+    position: relative;
+    font-size: 15px;
+    font-weight: 500;
+    color: #111827;
+    padding-bottom: 6px;
+    border-bottom: 2px solid transparent;
+    transition: color .18s ease, border-color .18s ease;
+}
+/* Font + size cho từng mục menu (Sản phẩm, Hàng mới, ...) */
+.hz-main-nav > a,
+.hz-main-nav > .group > button {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 15px;          /* cỡ chữ gần giống ICONDENIM */
+    font-weight: 700;         /* hơi đậm */
+    letter-spacing: 0.03em;   /* chữ thoáng nhẹ */
+    line-height: 1.4;
+}
+/* Hover: gạch đen giống ICONDENIM */
+.hz-main-nav > a:hover,
+.hz-main-nav > .group > button:hover {
+    border-bottom-color: #111827;
+}
+
+/* Đường gạch dưới nhìn “sạch” hơn khi hover / active */
+.hz-main-nav > a,
+.hz-main-nav > .group > button {
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+    padding-bottom: 12px;
+}
+
+.hz-main-link:hover {
+    color: #000000;
+    border-color: #000000;
+}
+
+/* Link "BLACK FRIDAY" màu đỏ giống web mẫu */
+.hz-main-link--hot {
+    color: #e11b22;
+    font-weight: 600;
+}
+
+.hz-main-link--hot:hover {
+    border-color: #e11b22;
+}
+
+.hz-megamenu {
+    transition: opacity .16s ease;
+}
+/* Category tabs active state */
+.cat-tab.active {
+    background: #fff;
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(15,23,42,0.06);
+    color: #0f172a;
+}
+/* =============== HERO SLIDER =============== */
+.hero-slider {
+    position: relative;
+    width: 100%;
+    height: 600px;          /* hoặc 600px tuỳ bạn */
+    overflow: hidden;
+}
+
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.hero-slide.is-active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.hero-slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* === Mũi tên 2 bên === */
+.hero-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: none;
+    outline: none;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.85;
+    z-index: 20;
+}
+
+.hero-arrow span {
+    font-size: 22px;
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+.hero-arrow--prev {
+    left: 24px;
+}
+
+.hero-arrow--next {
+    right: 24px;
+}
+
+.hero-arrow:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: translateY(-50%) scale(1.05);
+    opacity: 1;
+}
+
+/* === Dots dưới cùng === */
+.hero-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 20;
+}
+
+.hero-dot {
+    width: 24px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.hero-dot.is-active {
+    width: 36px;
+    background: #ffffff;
+}
+/* VOUCHER strip – chữ quay dọc giống IconDenim */
+.voucher-strip {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+}
+
+/* Cho cảm giác chữ sắc nét hơn trên nền đậm */
+.voucher-strip,
+.voucher-strip * {
+    -webkit-font-smoothing: antialiased;
+}
+/* ======= ƯU ĐÃI BLACK FRIDAY SECTION ======= */
+
+.hz-bf-section {
+    padding: 24px 0 32px;
+    /* nền đỏ gradient giống IconDenim */
+    background: radial-gradient(circle at top, #ff3b3b 0%, #b70b0b 35%, #5c0202 100%);
+}
+
+/* Banner tiêu đề */
+.hz-bf-banner {
+    max-width: 1180px;
+    margin: 0 auto 20px;
+    height: 70px;
+    border-radius: 999px;
+    background: radial-gradient(circle at top, #ff3b3b 0%, #1a0000 55%, #000000 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hz-bf-title {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 24px;          /* nhỏ lại */
+    font-weight: 800;         /* đậm hơn */
+    letter-spacing: 0.25em;   /* giãn chữ giống mẫu */
+    text-transform: uppercase;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* Hàng voucher */
+.hz-voucher-row {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* Card voucher từng cái */
+.hz-voucher-card {
+    height: 120px;           /* thấp hơn, gọn hơn  */
+    border-radius: 22px;
+    overflow: hidden;
+    display: flex;
+    background: linear-gradient(90deg, #120909 0%, #c30d0d 40%, #ff2525 100%);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+    position: relative;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.hz-voucher-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Cột đen VOUCHER bên trái */
+.hz-voucher-tag {
+    width: 60px;
+    background: #000000;
+    color: #ffffff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;   /* chữ dọc */
+    text-orientation: mixed;
+}
+
+/* Nội dung chính bên phải */
+.hz-voucher-main {
+    flex: 1;
+    padding: 18px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Số tiền / % */
+.hz-voucher-amount {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+/* Mô tả nhỏ phía dưới */
+.hz-voucher-desc {
+    margin-top: 6px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffe5e5;
+}
+
+/* Responsive: 2 cột trên tablet, 1 cột trên mobile */
+@media (max-width: 1024px) {
+    .hz-voucher-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 640px) {
+    .hz-bf-banner {
+        height: 56px;
+    }
+    .hz-bf-title {
+        font-size: 18px;
+        letter-spacing: 0.18em;
+    }
+    .hz-voucher-row {
+        grid-template-columns: 1fr;
+    }
+    .hz-voucher-card {
+        height: 110px;
+    }
+}
+
+/* ===========================
+   RETRO SPORTS SECTION
+   =========================== */
+
+.retro-sports-section {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background: linear-gradient(180deg, #d4d4a8 0%, #e8e8d0 45%, #f5f5e6 100%);
+    padding: 40px 0;
+}
+
+.retro-sports-section * {
+    color: #1a1a1a;
+}
+
+/* ====== CATEGORY SHOWCASE – CARD GỐN GỌN ====== */
+
+/* Mỗi slide = 1 card, full bề ngang slide */
+.category-showcase .swiper-slide {
+    display: flex;
+    height: auto;
+}
+
+.category-showcase .product-card {
+    width: 270px;           /* rộng cố định giống IconDenim */
+    max-width: none;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    background-color: #fff;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* Hover giống IconDenim */
+.category-showcase .product-card:hover {
+    transform: translateY(-4px);
+    border-color: #d1d5db;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+/* PHẦN ẢNH – chìa khoá để card NGẮN: dùng height cố định, bỏ aspect-ratio */
+.category-showcase .product-image-wrapper {
+    width: 270px;
+    height: 300px;          /* <-- muốn thấp hơn thì giảm số này, ví dụ 210px */
+    background: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 1024px) {
+    .category-showcase .product-image-wrapper {
+        height: 330px;      /* desktop cao hơn chút cho đẹp */
+    }
+}
+
+.category-showcase .product-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Nội dung tên + giá */
+.category-showcase .product-card .px-3 {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.category-showcase .product-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;  /* hoặc 1 nếu muốn thật ngắn */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+
+/* Nút "Xem tất cả" - hover effect */
+.category-showcase a:has(+ .text-center) {
+    transition: all 0.3s ease;
+}
+
+.tab-panel a[href*="products.index"] {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #0f172a;
+    border-radius: 6px;
+    color: #0f172a;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.tab-panel a[href*="products.index"]:hover {
+    background-color: #0f172a;
+    color: #ffffff;
+    transform: scale(1.05);
+    font-weight: 600;
+}
+
+
+/* ===========================
+   JEANS SECTION (Xanh Jeans)
+   =========================== */
+
+.jeans-section {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background: linear-gradient(180deg, #3f7798 0%, #8bc5e0 30%, #9bd5ec 60%, #b8e5f5 100%);
+    padding: 40px 0;
+}
+
+.jeans-section * {
+    color: #1a1a1a;
+}
+
+/* Đảm bảo text trên nền xanh dễ nhìn */
+.jeans-section h3,
+.jeans-section h2 {
+    color: #ffffff;
+}
+
+.jeans-section .text-slate-900 {
+    color: #ffffff !important;
+}
+
+.jeans-section button {
+    color: #1a1a1a;
+}
+
+.jeans-section .hover\:text-white:hover {
+    color: #ffffff;
+}
+.product-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;      /* số dòng tối đa muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+

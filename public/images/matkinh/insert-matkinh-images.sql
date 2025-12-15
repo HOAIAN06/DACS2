@@ -1,0 +1,12 @@
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-kim-loai-oval-nau-trong-1.jpg', 1 FROM products WHERE slug = 'mat-kinh-nam-gong-kim-loai-oval-nau-trong';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-kim-loai-oval-nau-trong-2.jpg', 0 FROM products WHERE slug = 'mat-kinh-nam-gong-kim-loai-oval-nau-trong';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-mat-meo-nau-van-co-ien-1.jpg', 1 FROM products WHERE slug = 'mat-kinh-nam-gong-mat-meo-nau-van-co-ien';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-mat-meo-nau-van-co-ien-2.jpg', 0 FROM products WHERE slug = 'mat-kinh-nam-gong-mat-meo-nau-van-co-ien';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-vuong-ban-to-en-trong-suot-1.jpg', 1 FROM products WHERE slug = 'mat-kinh-nam-gong-vuong-ban-to-en-trong-suot';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-vuong-ban-to-en-trong-suot-2.jpg', 0 FROM products WHERE slug = 'mat-kinh-nam-gong-vuong-ban-to-en-trong-suot';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-mat-meo-vuong-en-trong-1.jpg', 1 FROM products WHERE slug = 'mat-kinh-nam-gong-mat-meo-vuong-en-trong';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-mat-meo-vuong-en-trong-2.jpg', 0 FROM products WHERE slug = 'mat-kinh-nam-gong-mat-meo-vuong-en-trong';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-oval-kim-loai-en-trong-1.jpg', 1 FROM products WHERE slug = 'mat-kinh-nam-gong-oval-kim-loai-en-trong';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-oval-kim-loai-en-trong-2.jpg', 0 FROM products WHERE slug = 'mat-kinh-nam-gong-oval-kim-loai-en-trong';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-chu-nhat-urban-ombre-1.jpg', 1 FROM products WHERE slug = 'mat-kinh-nam-gong-chu-nhat-urban-ombre';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/matkinh/mat-kinh-nam-gong-chu-nhat-urban-ombre-2.jpg', 0 FROM products WHERE slug = 'mat-kinh-nam-gong-chu-nhat-urban-ombre';

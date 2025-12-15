@@ -1,0 +1,14 @@
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-raglan-peanuts-touchdown-1.jpg', 1 FROM products WHERE slug = 'ao-thun-nam-raglan-peanuts-touchdown';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-raglan-peanuts-touchdown-2.jpg', 0 FROM products WHERE slug = 'ao-thun-nam-raglan-peanuts-touchdown';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-raglan-peanuts-good-grief-1.jpg', 1 FROM products WHERE slug = 'ao-thun-nam-raglan-peanuts-good-grief';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-raglan-peanuts-good-grief-2.jpg', 0 FROM products WHERE slug = 'ao-thun-nam-raglan-peanuts-good-grief';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-peanuts-snoopy-golf-tee-over-cream-1.jpg', 1 FROM products WHERE slug = 'ao-thun-nam-peanuts-snoopy-golf-tee-over-cream';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-peanuts-snoopy-golf-tee-over-cream-2.jpg', 0 FROM products WHERE slug = 'ao-thun-nam-peanuts-snoopy-golf-tee-over-cream';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-raglan-peanuts-memories-1.jpg', 1 FROM products WHERE slug = 'ao-thun-nam-raglan-peanuts-memories';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-raglan-peanuts-memories-2.jpg', 0 FROM products WHERE slug = 'ao-thun-nam-raglan-peanuts-memories';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-peanuts-snoopy-constellation-1.jpg', 1 FROM products WHERE slug = 'ao-thun-nam-peanuts-snoopy-constellation';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-peanuts-snoopy-constellation-2.jpg', 0 FROM products WHERE slug = 'ao-thun-nam-peanuts-snoopy-constellation';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-peanuts-infinite-1.jpg', 1 FROM products WHERE slug = 'ao-thun-nam-peanuts-infinite';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-peanuts-infinite-2.jpg', 0 FROM products WHERE slug = 'ao-thun-nam-peanuts-infinite';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-peanuts-snoopy-non-athletic-dept-1.jpg', 1 FROM products WHERE slug = 'ao-thun-nam-peanuts-snoopy-non-athletic-dept';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/Snoopy/ao-thun-nam-peanuts-snoopy-non-athletic-dept-2.jpg', 0 FROM products WHERE slug = 'ao-thun-nam-peanuts-snoopy-non-athletic-dept';

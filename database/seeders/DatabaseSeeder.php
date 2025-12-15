@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +15,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Tạo admin account
+        $this->call([AdminUserSeeder::class]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Tạo 1 user test nếu chưa có
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            ['name' => 'Test User']
+        );
+
+        // Chạy lần lượt các seeder
+        $this->call([
+            CategorySeeder::class,
+            RetroSportsProductsSeeder::class,
+            JeansProductsSeeder::class,
+            BasicProductsSeeder::class,           // Products basic giống ICONDENIM
+            ProductVariantSeeder::class,          // Tạo variants (size/color) cho tất cả products
         ]);
     }
 }

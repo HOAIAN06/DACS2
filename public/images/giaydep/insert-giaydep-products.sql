@@ -1,0 +1,3 @@
+INSERT INTO products (name, slug, description, price, category_id) VALUES ('Dep nam easy strap slides', 'dep-nam-easy-strap-slides', 'Mo ta cho Dep nam easy strap slides', 199000, 9);
+INSERT INTO products (name, slug, description, price, category_id) VALUES ('Dep e cao su nam quai ngang da', 'dep-e-cao-su-nam-quai-ngang-da', 'Mo ta cho Dep e cao su nam quai ngang da', 199000, 9);
+INSERT INTO products (name, slug, description, price, category_id) VALUES ('Dep e trau nam quai ngang da lon minimal contemporary', 'dep-e-trau-nam-quai-ngang-da-lon-minimal-contemporary', 'Mo ta cho Dep e trau nam quai ngang da lon minimal contemporary', 199000, 9);

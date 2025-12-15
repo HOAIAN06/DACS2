@@ -1,0 +1,3 @@
+INSERT INTO products (name, slug, description, price, category_id) VALUES ('That lung nam hoa tiet shadow stripe', 'that-lung-nam-hoa-tiet-shadow-stripe', 'Mo ta cho That lung nam hoa tiet shadow stripe', 199000, 34);
+INSERT INTO products (name, slug, description, price, category_id) VALUES ('That lung nam hoa tiet camouflage moss', 'that-lung-nam-hoa-tiet-camouflage-moss', 'Mo ta cho That lung nam hoa tiet camouflage moss', 199000, 34);
+INSERT INTO products (name, slug, description, price, category_id) VALUES ('That lung nam urban essential', 'that-lung-nam-urban-essential', 'Mo ta cho That lung nam urban essential', 199000, 34);

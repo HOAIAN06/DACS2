@@ -1,0 +1,12 @@
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-dai-kaki-nam-wanderlust-1.jpg', 1 FROM products WHERE slug = 'quan-dai-kaki-nam-wanderlust';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-dai-kaki-nam-wanderlust-2.png', 0 FROM products WHERE slug = 'quan-dai-kaki-nam-wanderlust';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-jogger-nam-dashfield-ni-1.jpg', 1 FROM products WHERE slug = 'quan-jogger-nam-dashfield-ni';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-jogger-nam-dashfield-ni-2.jpg', 0 FROM products WHERE slug = 'quan-jogger-nam-dashfield-ni';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-jogger-nam-milesway-ni-1.jpg', 1 FROM products WHERE slug = 'quan-jogger-nam-milesway-ni';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-jogger-nam-milesway-ni-2.jpg', 0 FROM products WHERE slug = 'quan-jogger-nam-milesway-ni';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-jogger-linen-nam-basic-1.jpg', 1 FROM products WHERE slug = 'quan-jogger-linen-nam-basic';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-jogger-linen-nam-basic-2.jpg', 0 FROM products WHERE slug = 'quan-jogger-linen-nam-basic';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-dai-nam-tatical-geared-1.jpg', 1 FROM products WHERE slug = 'quan-dai-nam-tatical-geared';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-dai-nam-tatical-geared-2.jpg', 0 FROM products WHERE slug = 'quan-dai-nam-tatical-geared';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-dai-nam-linen-ease-trourses-1.jpg', 1 FROM products WHERE slug = 'quan-dai-nam-linen-ease-trourses';
+INSERT INTO product_images (product_id, image_url, is_main) SELECT id, '/images/quanjogger/quan-dai-nam-linen-ease-trourses-2.jpg', 0 FROM products WHERE slug = 'quan-dai-nam-linen-ease-trourses';

@@ -1,0 +1,178 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Category;
+use Illuminate\Database\Seeder;
+
+class CategorySeeder extends Seeder
+{
+    public function run(): void
+    {
+        // ======= PARENT CATEGORIES =======
+        $aoNam = Category::updateOrCreate(
+            ['slug' => 'ao-nam'],
+            [
+                'name'      => 'Áo Nam',
+                'parent_id' => null,
+                'is_active' => 1,
+            ]
+        );
+
+        $quanNam = Category::updateOrCreate(
+            ['slug' => 'quan-nam'],
+            [
+                'name'      => 'Quần Nam',
+                'parent_id' => null,
+                'is_active' => 1,
+            ]
+        );
+
+        $giayPhuKien = Category::updateOrCreate(
+            ['slug' => 'giay-phu-kien'],
+            [
+                'name'      => 'Giày & Phụ Kiện',
+                'parent_id' => null,
+                'is_active' => 1,
+            ]
+        );
+
+        // ======= CHILD CATEGORIES (Áo) =======
+        Category::updateOrCreate(
+            ['slug' => 'ao-thun'],
+            [
+                'name'      => 'Áo Thun',
+                'parent_id' => $aoNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'ao-polo'],
+            [
+                'name'      => 'Áo Polo',
+                'parent_id' => $aoNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'ao-somi'],
+            [
+                'name'      => 'Áo Sơmi',
+                'parent_id' => $aoNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'ao-ni-len'],
+            [
+                'name'      => 'Áo Nỉ & Len',
+                'parent_id' => $aoNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'hoodie'],
+            [
+                'name'      => 'Hoodie',
+                'parent_id' => $aoNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'ao-khoac'],
+            [
+                'name'      => 'Áo Khoác',
+                'parent_id' => $aoNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        // ======= CHILD CATEGORIES (Quần) =======
+        Category::updateOrCreate(
+            ['slug' => 'quan-short'],
+            [
+                'name'      => 'Quần Short',
+                'parent_id' => $quanNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'quan-jean'],
+            [
+                'name'      => 'Quần Jean',
+                'parent_id' => $quanNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'quan-kaki-chino'],
+            [
+                'name'      => 'Quần Kaki & Chino',
+                'parent_id' => $quanNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'quan-jogger-quan-dai'],
+            [
+                'name'      => 'Quần Jogger - Quần Dài',
+                'parent_id' => $quanNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'quan-tay'],
+            [
+                'name'      => 'Quần Tây',
+                'parent_id' => $quanNam->id,
+                'is_active' => 1,
+            ]
+        );
+
+        // ======= CHILD CATEGORIES (Phụ kiện) =======
+        Category::updateOrCreate(
+            ['slug' => 'non'],
+            [
+                'name'      => 'Nón',
+                'parent_id' => $giayPhuKien->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'balo-tui-vi'],
+            [
+                'name'      => 'Balo Túi Ví',
+                'parent_id' => $giayPhuKien->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'that-lung'],
+            [
+                'name'      => 'Thắt Lưng',
+                'parent_id' => $giayPhuKien->id,
+                'is_active' => 1,
+            ]
+        );
+
+        Category::updateOrCreate(
+            ['slug' => 'mat-kinh'],
+            [
+                'name'      => 'Mắt Kính',
+                'parent_id' => $giayPhuKien->id,
+                'is_active' => 1,
+            ]
+        );
+    }
+}
