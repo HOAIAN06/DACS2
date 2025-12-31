@@ -43,5 +43,9 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
+      # ✅ THÊM BƯỚC NÀY
+      - name: Run migrations
+        run: php artisan migrate --force
+
       - name: Execute tests
         run: php artisan test
