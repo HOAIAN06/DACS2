@@ -16,7 +16,8 @@ return new class extends Migration
                 $table->id();
                 $table->foreignId('cart_id')->constrained('carts')->cascadeOnDelete();
 
-                $table->foreignId('product_id')->constrained('products')->restrictOnDelete();
+                // Dùng unsignedInteger để match với products.id
+                $table->unsignedInteger('product_id');
                 $table->foreignId('product_variant_id')->nullable()
                     ->constrained('product_variants')->nullOnDelete();
 
@@ -25,6 +26,9 @@ return new class extends Migration
                 $table->timestamps();
 
                 $table->unique(['cart_id','product_id','product_variant_id']);
+                
+                // Foreign key cho product_id
+                $table->foreign('product_id')->references('id')->on('products')->restrictOnDelete();
             });
         }
     }

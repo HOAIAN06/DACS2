@@ -16,7 +16,7 @@ class HomeController extends Controller
         $collectionKey = 'retro-sports';
         $collectionLabel = str_replace('-', ' ', $collectionKey); // "retro sports"
 
-        $retroSportsProducts = Product::with('images')
+        $retroSportsProducts = Product::with('mainImage')
                           ->whereRaw('LOWER(collection) = ?', [strtolower($collectionLabel)])
                           ->orderBy('created_at', 'desc')
                           ->take(10)
@@ -26,34 +26,34 @@ class HomeController extends Controller
         $jeansKey = 'jeans';
         $jeansLabel = 'Quần Jeans'; // hoặc 'Jeans'
 
-        $jeansProducts = Product::with('images')
+        $jeansProducts = Product::with('mainImage')
                           ->whereRaw('LOWER(collection) = ?', [strtolower($jeansLabel)])
                           ->orderBy('created_at', 'desc')
                           ->take(10)
                           ->get();
 
         // Lấy 5 sản phẩm cho các danh mục Áo Thun / Áo Sơmi / Áo Polo
-        $teeProducts = Product::with('images')
+        $teeProducts = Product::with('mainImage')
                 ->whereHas('category', function ($q) { $q->where('slug', 'ao-thun'); })
                 ->where('is_active', 1)
                 ->orderBy('created_at', 'desc')
                 ->take(5)
                 ->get();
 
-        $somiProducts = Product::with('images')
+        $somiProducts = Product::with('mainImage')
                 ->whereHas('category', function ($q) { $q->where('slug', 'ao-somi'); })
                 ->where('is_active', 1)
                 ->orderBy('created_at', 'desc')
                 ->take(5)
                 ->get();
 
-        $poloProducts = Product::with('images')
+        $poloProducts = Product::with('mainImage')
                 ->whereHas('category', function ($q) { $q->where('slug', 'ao-polo'); })
                 ->where('is_active', 1)
                 ->orderBy('created_at', 'desc')
                 ->take(5)
                 ->get();
-        $tayProducts = Product::with('images')
+        $tayProducts = Product::with('mainImage')
         ->whereHas('category', function ($q) { $q->where('slug', 'quan-tay'); })
         ->where('is_active', 1)
         ->orderBy('created_at', 'desc')
@@ -62,7 +62,7 @@ class HomeController extends Controller
 
 
                 // Hàng mới (is_new = 1)
-                $newProducts = Product::with('images')
+                $newProducts = Product::with('mainImage')
                         ->where('is_new', 1)
                         ->where('is_active', 1)
                         ->orderBy('created_at', 'desc')
@@ -70,7 +70,7 @@ class HomeController extends Controller
                         ->get();
 
                 // Bộ sưu tập Thu Đông
-                $winterProducts = Product::with('images')
+                $winterProducts = Product::with('mainImage')
                         ->whereRaw('LOWER(collection) = ?', ['thu-dong'])
                         ->where('is_active', 1)
                         ->orderBy('created_at', 'desc')
@@ -83,7 +83,7 @@ class HomeController extends Controller
                 $outletProducts     = $products;
 
         // SHORT: ví dụ lấy 10 sản phẩm có collection = "Short" hoặc tên bạn đang lưu
-        $shortProducts = Product::with('images')
+        $shortProducts = Product::with('mainImage')
         ->where(function ($q) {
         $q->whereRaw('LOWER(collection) = ?', ['short'])
           ->orWhereRaw('LOWER(collection) = ?', ['quan short'])

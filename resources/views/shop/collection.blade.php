@@ -22,7 +22,7 @@
             </div>
 
             <div class="mt-8">
-                {{ $products->links() }}
+                {{ $products->links('vendor.pagination.hanzo') }}
             </div>
         @else
             <p>Chưa có sản phẩm nào trong bộ sưu tập này.</p>

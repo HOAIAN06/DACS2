@@ -1,0 +1,159 @@
+<!-- TEST FILE: Xóa sau khi kiểm tra thành công -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST - User & Admin System</title>
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: #f9fafb;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 { color: #1f2937; margin-bottom: 2rem; }
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card h2 {
+            color: #1f2937;
+            font-size: 1.25rem;
+            margin-top: 0;
+        }
+        .route-item {
+            padding: 0.75rem;
+            background: #f3f4f6;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            border-left: 3px solid #3b82f6;
+        }
+        .route-item code {
+            background: #e5e7eb;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .success { color: #10b981; font-weight: bold; }
+        .warning { color: #f59e0b; font-weight: bold; }
+        .error { color: #ef4444; font-weight: bold; }
+        a {
+            color: #3b82f6;
+            text-decoration: none;
+            margin: 0.25rem 0.5rem 0.25rem 0;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #dbeafe;
+            border-radius: 4px;
+            border: 1px solid #3b82f6;
+        }
+        a:hover { background: #3b82f6; color: white; }
+    </style>
+</head>
+<body>
+    <h1>✅ USER & ADMIN SYSTEM - TEST</h1>
+
+    <div class="card">
+        <h2>📊 Files & Structures Created</h2>
+        <div class="success">✓ Controllers (4 files)</div>
+        <div class="route-item">✓ UserController - User dashboard, profile, orders</div>
+        <div class="route-item">✓ Admin/DashboardController - Admin dashboard</div>
+        <div class="route-item">✓ Admin/OrderController - Order management</div>
+        <div class="route-item">✓ Admin/UserController - Customer management</div>
+
+        <div class="success" style="margin-top: 1rem;">✓ Middleware (1 file)</div>
+        <div class="route-item">✓ App/Http/Middleware/Admin.php - Check admin permission</div>
+
+        <div class="success" style="margin-top: 1rem;">✓ Views (9 files)</div>
+        <div class="route-item">User: dashboard, profile, orders, order-detail</div>
+        <div class="route-item">Admin: dashboard, orders (index/show), users (index/show)</div>
+
+        <div class="success" style="margin-top: 1rem;">✓ Assets (2 files)</div>
+        <div class="route-item">CSS: public/css/user.css (280+ lines)</div>
+        <div class="route-item">JS: public/js/user.js (350+ lines)</div>
+
+        <div class="success" style="margin-top: 1rem;">✓ Database</div>
+        <div class="route-item">Migration: is_admin column added ✓</div>
+    </div>
+
+    <div class="card">
+        <h2>🔗 USER ROUTES (require auth)</h2>
+        <div class="route-item"><code>GET /user</code> → user.dashboard</div>
+        <div class="route-item"><code>GET /user/profile</code> → user.profile</div>
+        <div class="route-item"><code>PUT /user/profile</code> → user.update-profile</div>
+        <div class="route-item"><code>GET /user/change-password</code> → user.change-password</div>
+        <div class="route-item"><code>POST /user/change-password</code> → change password</div>
+        <div class="route-item"><code>GET /user/orders</code> → user.orders</div>
+        <div class="route-item"><code>GET /user/orders/{id}</code> → user.order-detail</div>
+        <div class="route-item"><code>PUT /user/orders/{id}/cancel</code> → user.order-cancel</div>
+    </div>
+
+    <div class="card">
+        <h2>🔐 ADMIN ROUTES (require auth + admin middleware)</h2>
+        <div class="route-item"><code>GET /admin/dashboard</code> → admin.dashboard</div>
+
+        <strong>Orders:</strong>
+        <div class="route-item"><code>GET /admin/orders</code> → admin.orders.index</div>
+        <div class="route-item"><code>GET /admin/orders/{id}</code> → admin.orders.show</div>
+        <div class="route-item"><code>PATCH /admin/orders/{id}/status</code> → update order status</div>
+        <div class="route-item"><code>PATCH /admin/orders/{id}/payment-status</code> → update payment status</div>
+
+        <strong>Users:</strong>
+        <div class="route-item"><code>GET /admin/users</code> → admin.users.index</div>
+        <div class="route-item"><code>GET /admin/users/search</code> → admin.users.search</div>
+        <div class="route-item"><code>GET /admin/users/{id}</code> → admin.users.show</div>
+
+        <strong>Products:</strong>
+        <div class="route-item"><code>GET /admin/products</code> → admin.products.index</div>
+        <div class="route-item"><code>GET /admin/products/create</code> → admin.products.create</div>
+        <div class="route-item"><code>POST /admin/products</code> → admin.products.store</div>
+        <div class="route-item"><code>GET /admin/products/{id}/edit</code> → admin.products.edit</div>
+        <div class="route-item"><code>PUT /admin/products/{id}</code> → admin.products.update</div>
+        <div class="route-item"><code>DELETE /admin/products/{id}</code> → admin.products.destroy</div>
+
+        <strong>Categories:</strong>
+        <div class="route-item"><code>GET /admin/categories</code> → admin.categories.index</div>
+        <div class="route-item"><code>GET /admin/categories/create</code> → admin.categories.create</div>
+        <div class="route-item"><code>POST /admin/categories</code> → admin.categories.store</div>
+        <div class="route-item"><code>GET /admin/categories/{id}/edit</code> → admin.categories.edit</div>
+        <div class="route-item"><code>PUT /admin/categories/{id}</code> → admin.categories.update</div>
+        <div class="route-item"><code>DELETE /admin/categories/{id}</code> → admin.categories.destroy</div>
+    </div>
+
+    <div class="card">
+        <h2>🧪 Test Instructions</h2>
+        <ol>
+            <li><strong>Create Admin User:</strong>
+                <pre>php artisan tinker
+User::create(['name' => 'Admin', 'email' => 'admin@test.com', 'password' => Hash::make('123456'), 'is_admin' => true])
+</pre>
+            </li>
+            <li><strong>Test User Routes:</strong>
+                <a href="/user" target="_blank">Visit /user</a> (must be logged in)
+            </li>
+            <li><strong>Test Admin Routes:</strong>
+                <a href="/admin/dashboard" target="_blank">Visit /admin/dashboard</a> (must be logged in as admin)
+            </li>
+            <li><strong>Clear cache:</strong> php artisan cache:clear</li>
+        </ol>
+    </div>
+
+    <div class="card" style="background: #dcfce7; border: 1px solid #86efac;">
+        <h2 style="color: #166534;">✅ SYSTEM READY FOR UI DEVELOPMENT</h2>
+        <p style="color: #166534;">
+            All routes, controllers, views, CSS & JS are set up. 
+            You can now start styling and making the pages interactive.
+        </p>
+    </div>
+
+    <script>
+        // Auto-redirect after 10 seconds (uncomment if needed)
+        // setTimeout(() => window.location.href = '/', 10000);
+    </script>
+</body>
+</html>

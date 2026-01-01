@@ -1,0 +1,295 @@
+/* ========================================
+   AUTH PAGE STYLES
+   ======================================== */
+
+:root {
+    --primary-color: #0f172a;
+    --secondary-color: #64748b;
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --border-color: #e2e8f0;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animations */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.6s ease-out;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.7s ease-out;
+}
+
+/* Form inputs styling */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+    transition: var(--transition);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+    accent-color: #0f172a;
+    cursor: pointer;
+}
+
+/* Input error state */
+input.border-red-500 {
+    border-color: #ef4444 !important;
+    background-color: #fef2f2;
+}
+
+input.border-red-500:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Input success state */
+input.border-green-500 {
+    border-color: #10b981 !important;
+    background-color: #f0fdf4;
+}
+
+input.border-green-500:focus {
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Placeholder styling */
+input::placeholder {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+/* Button animations */
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: left 0.3s ease;
+    z-index: 0;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+/* Auth card animation */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bg-white {
+    animation: slideUp 0.5s ease-out;
+}
+
+/* Alert animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.bg-red-50,
+.bg-green-50 {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Tab animation */
+.flex.gap-2.bg-slate-100 button,
+.flex.gap-2.bg-slate-100 a {
+    position: relative;
+    transition: var(--transition);
+}
+
+/* Password strength indicator animation */
+@keyframes checkMark {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.text-green-500 {
+    animation: checkMark 0.3s ease-out;
+}
+
+/* Input label styling */
+label {
+    font-weight: 500;
+    color: #1e293b;
+    display: block;
+}
+
+/* Error text styling */
+.text-red-500 {
+    color: #ef4444;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.text-red-700 {
+    color: #b91c1c;
+}
+
+/* Success text styling */
+.text-green-800 {
+    color: #166534;
+}
+
+/* Link styling */
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a.hover\:underline:hover {
+    text-decoration: underline;
+}
+
+/* Divider styling */
+.border-t {
+    border-color: var(--border-color);
+}
+
+/* Card shadow enhancement */
+.shadow-lg {
+    box-shadow: 0 10px 40px rgba(15, 23, 42, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .w-full.max-w-md {
+        padding: 0 1rem;
+    }
+
+    .bg-white {
+        border-radius: 1rem;
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    button {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --border-color: #334155;
+    }
+
+    body {
+        background: linear-gradient(to bottom right, #020617, #0f172a);
+    }
+
+    .bg-white {
+        background-color: #1e293b;
+        color: #f1f5f9;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+        background-color: #334155;
+        color: #f1f5f9;
+        border-color: #475569;
+    }
+
+    label {
+        color: #e2e8f0;
+    }
+
+    .text-slate-600 {
+        color: #cbd5e1;
+    }
+
+    .text-slate-900 {
+        color: #f1f5f9;
+    }
+}
+
+/* Loading state for submit button */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    background-color: #0f172a;
+    transform: none;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

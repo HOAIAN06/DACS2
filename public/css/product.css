@@ -1,0 +1,329 @@
+:root{
+  --hz-text: #0f172a;
+  --hz-muted:#64748b;
+  --hz-border:#cbd5e1;
+  --hz-blue:#0b2a7a;
+  --hz-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Chỉ áp font cho khu vực sản phẩm để khỏi ảnh hưởng toàn site */
+.hz-buybox, .hz-policy{
+  font-family: var(--hz-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Options layout ===== */
+.hz-buybox{ display:flex; flex-direction:column; gap:18px; margin-top:6px; }
+.hz-option{ display:flex; flex-direction:column; gap:10px; }
+.hz-option__head{ display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }
+.hz-option__label{ font-weight:700; font-size:14px; color:var(--hz-text); letter-spacing:.2px; }
+.hz-link{ font-size:13px; font-weight:700; color:var(--hz-blue); text-decoration:underline; text-underline-offset:3px; }
+
+/* Fix trường hợp CSS reset làm button “mất form” */
+.hz-pill, .hz-size, .hz-qty-btn, .hz-btn{
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+}
+
+/* ===== Color pills ===== */
+.hz-pill-group{ display:flex; flex-wrap:wrap; gap:10px; }
+.hz-pill{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:8px 12px;
+  border:1.5px solid var(--hz-border);
+  border-radius:10px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--hz-text);
+  background:#fff;
+  line-height:1;
+  cursor:pointer;
+  transition: all .18s ease;
+}
+.hz-pill:hover{ border-color:#0f172a; transform: translateY(-1px); }
+.hz-pill.is-active{
+  border-color: var(--hz-blue);
+  background:#0f172a;
+  color:#fff;
+}
+
+/* ===== Size grid ===== */
+.hz-size-grid{ display:grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap:10px; }
+@media (max-width: 768px){ .hz-size-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.hz-size{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:10px 0;
+  border:1.5px solid var(--hz-border);
+  border-radius:10px;
+  background:#fff;
+  font-size:13px;
+  font-weight:700;
+  color:var(--hz-text);
+  cursor:pointer;
+  transition: all .18s ease;
+}
+.hz-size:hover{ border-color:#0f172a; transform: translateY(-1px); }
+.hz-size.is-active{ background:#0f172a; color:#fff; border-color:#0f172a; }
+.hz-size:disabled{ opacity:.45; cursor:not-allowed; transform:none; }
+
+/* ===== Buy row (qty + add to cart) ===== */
+.hz-buy-row{
+  display:flex;
+  align-items:stretch;
+  gap:14px;
+  margin-top:10px;
+}
+
+.hz-qty-wrap{
+  display:flex;
+  align-items:center;
+  height:52px;
+  border:1px solid var(--hz-border);
+  border-radius:14px;
+  overflow:hidden;
+  background:#fff;
+  flex: 0 0 150px;
+}
+
+.hz-qty-btn{
+  width:46px;
+  height:100%;
+  background:#fff;
+  color:var(--hz-text);
+  font-size:20px;
+  font-weight:600;
+  cursor:pointer;
+}
+.hz-qty-btn:hover{ background:#f8fafc; }
+
+.hz-qty-input{
+  width:58px;
+  height:100%;
+  border:0;
+  border-left:1px solid var(--hz-border);
+  border-right:1px solid var(--hz-border);
+  text-align:center;
+  font-weight:700;
+  color:var(--hz-text);
+  outline:none;
+}
+.hz-qty-input::-webkit-outer-spin-button,
+.hz-qty-input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+
+/* ===== Buttons ===== */
+.hz-btn{
+  height:52px;
+  border-radius:14px;
+  font-family: var(--hz-font);
+  font-weight:800;
+  letter-spacing:.08em;
+  font-size:13px;
+  text-transform:uppercase;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 18px;
+  user-select:none;
+  cursor:pointer;
+}
+
+.hz-btn-outline{
+  flex:1;
+  background:#fff;
+  color:var(--hz-text);
+  border:2px solid #0b1220;
+}
+.hz-btn-outline:hover{ background:#f8fafc; }
+
+.hz-btn-primary{
+  width:100%;
+  background:var(--hz-blue);
+  color:#fff;
+  border:2px solid var(--hz-blue);
+  margin-top:12px;
+}
+.hz-btn-primary:hover{ filter:brightness(.95); }
+
+@media (max-width: 640px){
+  .hz-buy-row{ flex-direction:column; }
+  .hz-qty-wrap{ width:100%; flex:0 0 auto; }
+  .hz-btn-outline{ width:100%; }
+}
+
+/* ===== Policy row ===== */
+.hz-policy{ margin-top:18px; padding-top:18px; border-top:1px solid #e5eaf2; }
+.hz-policy__list{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:16px 28px;
+  align-items:start;
+}
+.hz-policy__item{ display:flex; align-items:center; gap:12px; min-height:44px; }
+.hz-policy__icon{
+  width:42px; height:42px; border-radius:999px;
+  border:1px solid #d9e2f1; background:#fff;
+  display:grid; place-items:center; flex:0 0 42px;
+}
+.hz-policy__icon img{ width:22px; height:22px; object-fit:contain; display:block; }
+.hz-policy__text{
+  font-size:15px;
+  line-height:1.35;
+  font-weight:500;
+  color:#0b1f44;
+  letter-spacing:.1px;
+}
+@media (max-width: 640px){
+  .hz-policy__list{ grid-template-columns: 1fr; gap:14px; }
+  .hz-policy__text{ font-size:14px; }
+}
+
+/* ===== Size Guide Modal ===== */
+.hz-size-guide-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.hz-size-guide-backdrop.active {
+  display: flex;
+}
+
+/* Fallback: show modal when targeted via anchor */
+#hz-size-guide-modal:target {
+  display: flex;
+}
+
+.hz-size-guide-dialog {
+  position: relative;
+  background: white;
+  border-radius: 0.5rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.hz-size-guide-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hz-size-guide-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  transition: all 0.2s;
+}
+
+.hz-size-guide-close:hover {
+  background: #f1f5f9;
+}
+
+/* ===== Stock Badge ===== */
+.hz-stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.hz-stock-badge.in-stock {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.hz-stock-badge.low-stock {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.hz-stock-badge.out-of-stock {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ===== Sync with existing classes ===== */
+/* Thêm support cho class .active và .disabled (ngoài .is-active và :disabled) */
+.hz-pill.active {
+  border-color: var(--hz-blue);
+  background: #0f172a;
+  color: #fff;
+}
+
+.hz-size-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  border: 1.5px solid var(--hz-border);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--hz-text);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.hz-size-btn:hover {
+  border-color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.hz-size-btn.active {
+  background: #0f172a;
+  color: #fff;
+  border-color: #0f172a;
+}
+
+.hz-size-btn.disabled,
+.hz-size-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f1f5f9;
+  transform: none;
+}
+
+/* ===== Additional Options Styles ===== */
+.hz-option__right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hz-option__hint {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* ===== Product Price Color ===== */
+.hz-product-price {
+  color: #00196dff;
+}

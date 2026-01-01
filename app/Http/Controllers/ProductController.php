@@ -14,14 +14,11 @@ class ProductController extends Controller
         $query = Product::with(['category','images'])
             ->where('is_active', 1);
 
-        // Tìm kiếm theo tên / sku ?q=
+        // Tìm kiếm theo tên ?q=
         if ($request->filled('q')) {
             $keyword = $request->q;
 
-            $query->where(function ($q) use ($keyword) {
-                $q->where('name', 'like', "%{$keyword}%")
-                  ->orWhere('sku', 'like', "%{$keyword}%");
-            });
+            $query->where('name', 'like', "%{$keyword}%");
         }
 
         // Lọc theo category ?category=slug-category
@@ -55,7 +52,7 @@ class ProductController extends Controller
         }
 
         // Lấy sản phẩm + phân trang
-        $products = $query->paginate(12)->withQueryString();
+        $products = $query->paginate(30);
 
         // Lấy categories để làm filter
         $categories = Category::orderBy('name')->get();
@@ -67,7 +64,45 @@ class ProductController extends Controller
 
     public function show($slug)
     {
-        $product = Product::with(['images','category'])->where('slug', $slug)->firstOrFail();
+        $product = Product::with(['images', 'category', 'mainImage', 'variants'])
+            ->where('slug', $slug)
+            ->firstOrFail();
         return view('product.show', compact('product'));
+    }
+
+    /**
+     * API endpoint để lấy product data cho Quick Add modal
+     */
+    public function apiShow($id)
+    {
+        $product = Product::with(['category', 'variants', 'mainImage', 'images'])
+            ->findOrFail($id);
+
+        // Lấy ảnh main (is_main = 1), fallback về first image, rồi placeholder
+        $imageUrl = asset('images/placeholder.jpg');
+        
+        if ($product->mainImage) {
+            $imageUrl = $product->mainImage->full_url ?? asset('images/placeholder.jpg');
+        } elseif ($product->images && $product->images->count() > 0) {
+            $imageUrl = $product->images->first()->full_url ?? asset('images/placeholder.jpg');
+        }
+
+        return response()->json([
+            'id' => $product->id,
+            'name' => $product->name,
+            'price' => $product->price,
+            'old_price' => $product->old_price,
+            'category' => $product->category?->name,
+            'image' => $imageUrl,
+            'variants' => $product->variants->map(function($v) {
+                return [
+                    'id' => $v->id,
+                    'color' => $v->color,
+                    'size' => $v->size,
+                    'price' => $v->price ?? $v->product->price,
+                    'stock' => $v->stock ?? 0,
+                ];
+            })->toArray(),
+        ]);
     }
 }

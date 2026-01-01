@@ -1,0 +1,172 @@
+/* ===== Category Page Styles ===== */
+
+.hanzo-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Banner section */
+.category-banner {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.category-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Banner fallback (gradient text) */
+.category-banner-fallback {
+  width: 100%;
+  background: linear-gradient(to right, #0f172a, #1e293b, #0f172a);
+  color: white;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+}
+
+.category-banner-fallback h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.category-banner-fallback p {
+  font-size: 1rem;
+  color: #cbd5e1;
+  max-width: 40rem;
+}
+
+/* Product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.empty-state p {
+  font-size: 1.125rem;
+  color: #64748b;
+}
+
+/* =========================
+   PAGINATION – HANZO / IconDenim
+   ========================= */
+
+.hz-pagination{
+  display: flex;
+  justify-content: center;
+  margin: 32px 0 48px;
+}
+
+.hz-pagination__inner{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== Page item ===== */
+.hz-page{
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #ffffff;
+  color: #6b7280;               /* gray-500 */
+  border: 1px solid #e5e7eb;    /* gray-200 */
+  border-radius: 0;             /* vuông đúng mẫu */
+
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+
+  box-shadow: none;
+  transition: none;
+}
+
+/* hover */
+.hz-page:hover{
+  color: #111827;               /* gray-900 */
+  border-color: #d1d5db;        /* gray-300 */
+  background-color: #ffffff;
+}
+
+/* active */
+.hz-page.is-active{
+  background-color: #000000;
+  border-color: #000000;
+  color: #ffffff;
+  cursor: default;
+}
+
+/* arrow */
+.hz-page--arrow{
+  font-size: 18px;
+}
+
+/* dots */
+.hz-page--dots{
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: none;
+  color: #9ca3af;               /* gray-400 */
+  font-weight: 600;
+}
+
+/* disabled */
+.hz-page.is-disabled{
+  color: #d1d5db;               /* gray-300 */
+  border-color: #e5e7eb;
+  background-color: #ffffff;
+  pointer-events: none;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 640px){
+  .hz-page{
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .hz-page--arrow{
+    font-size: 16px;
+  }
+}
+
+
+
+

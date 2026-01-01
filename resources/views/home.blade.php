@@ -9,13 +9,13 @@
         window.HANZO = window.HANZO || {};
         window.HANZO.categoryBanners = {
             // Áo
-            thun: '{{ asset('images/banner/banner_aothun.jpg') }}',
-            somi: '{{ asset('images/banner/banner_aosomi.jpg') }}',
-            polo: '{{ asset('images/banner/banner_aopolo.jpg') }}',
+            thun: "{{ asset('images/banner/banner_aothun.jpg') }}",
+            somi: "{{ asset('images/banner/banner_aosomi.jpg') }}",
+            polo: "{{ asset('images/banner/banner_aopolo.jpg') }}",
             // Quần
-            short: '{{ asset('images/banner/banner_quanshort.jpg') }}',
-            jean: '{{ asset('images/banner/banner_quanjean.jpg') }}',
-            tay: '{{ asset('images/banner/banner_quantay.jpg') }}'
+            short: "{{ asset('images/banner/banner_quanshort.jpg') }}",
+            jean: "{{ asset('images/banner/banner_quanjean.jpg') }}",
+            tay: "{{ asset('images/banner/banner_quantay.jpg') }}"
         };
     </script>
 
@@ -104,37 +104,28 @@
          <div class="retro-sports-section my-10">
         @if($retroSportsProducts->count())
         <section class="mb-12 hanzo-container px-3">
-            {{-- HERO BANNER - Giống Icon Denim style --}}
+            {{-- HERO BANNER ---}}
             <div class="relative w-full h-[350px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden mb-10 group">
                 <img src="{{ asset('images/banner/retro-sport-banner.jpg') }}" 
                      alt="Retro Sports Collection" 
                      class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 
-                {{-- Logo badge --}}
-                <div class="absolute top-6 left-6 bg-white px-3 py-1 rounded text-xs font-bold tracking-wide">
-                    RETRO SPORTS
-                </div>
+                
 
-                {{-- Text overlay - dưới bên phải --}}
-                <div class="absolute bottom-8 right-8 text-white text-right">
-                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-2">
-                        Retro Sports
-                    </h2>
-                    <p class="text-sm md:text-base font-medium">
-                        The Playbook - New Rules
-                    </p>
-                </div>
-            </div> 
+            </div>
 
-            {{-- PRODUCT CAROUSEL - Giống Icon Denim --}}
+            {{-- PRODUCT CAROUSEL --}}
             <div class="relative">
                 {{-- Heading --}}
-                <div class="mb-10 flex items-center justify-between">
-                    <h3 class="text-xl md:text-2xl font-semibold text-slate-900 tracking-normal">Sản phẩm nổi bật</h3>
+                <div class="mb-12 flex items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-2">Sản phẩm nổi bật</h3>
+                        <div class="h-1.5 w-16 bg-slate-900 rounded-full"></div>
+                    </div>
                     <a href="{{ route('products.index', ['collection' => 'retro-sports']) }}" 
-                       class="px-7 py-3 border-2 border-slate-900 rounded-full text-sm font-bold 
-                              text-slate-900 hover:bg-slate-900 hover:text-white transition duration-300 
-                              uppercase tracking-wider">
+                       class="px-6 py-3 bg-slate-900 text-white rounded-full text-xs font-bold 
+                              hover:bg-slate-700 hover:shadow-lg transition duration-300 
+                              uppercase tracking-widest flex-shrink-0 whitespace-nowrap">
                         Xem tất cả
                     </a>
                 </div>
@@ -189,26 +180,21 @@
                     QUẦN JEANS
                 </div>
 
-                {{-- Text overlay - dưới bên phải --}}
-                <div class="absolute bottom-8 right-8 text-white text-right">
-                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-2">
-                        Quần Jeans
-                    </h2>
-                    <p class="text-sm md:text-base font-medium">
-                        Tech Urban Jeans by IconDenim
-                    </p>
-                </div>
+                
             </div> 
 
-            {{-- PRODUCT CAROUSEL - Giống Icon Denim --}}
+            {{-- PRODUCT CAROUSEL --}}
             <div class="relative">
                 {{-- Heading --}}
-                <div class="mb-10 flex items-center justify-between">
-                    <h3 class="text-xl md:text-2xl font-semibold text-white tracking-normal">Sản phẩm nổi bật</h3>
+                <div class="mb-12 flex items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">Sản phẩm nổi bật</h3>
+                        <div class="h-1.5 w-16 bg-white rounded-full"></div>
+                    </div>
                     <a href="{{ route('products.index', ['collection' => 'jeans']) }}" 
-                       class="px-7 py-3 border-2 border-white rounded-full text-sm font-bold 
-                              text-white hover:bg-white hover:text-blue-600 transition duration-300 
-                              uppercase tracking-wider">
+                       class="px-6 py-3 bg-white text-blue-600 rounded-full text-xs font-bold 
+                              hover:bg-slate-100 hover:shadow-lg transition duration-300 
+                              uppercase tracking-widest flex-shrink-0 whitespace-nowrap">
                         Xem tất cả
                     </a>
                 </div>
@@ -257,75 +243,140 @@
 
 
 
-        {{-- HIGHLIGHT SECTION: Hàng mới / Thu Đông (style ICONDENIM) --}}
-        @if(($newProducts ?? collect())->count() || ($winterProducts ?? collect())->count())
-        <section class="my-16 hanzo-container px-3" data-highlight-group>
-            {{-- Tabs - căn phải giống mẫu IconDenim --}}
-            <div class="flex items-center justify-end gap-6 mb-6 border-b border-slate-200">
-                <button class="highlight-tab px-0 py-3 text-[15px] font-semibold text-black border-b-2 border-black transition-all" data-highlight-tab="new">Hàng mới</button>
-                <button class="highlight-tab px-0 py-3 text-[15px] font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all opacity-50 cursor-not-allowed" data-highlight-tab="best" disabled>Hàng bán chạy (sắp có)</button>
-                <button class="highlight-tab px-0 py-3 text-[15px] font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all" data-highlight-tab="winter">Đồ Thu Đông</button>
-            </div>
+{{-- HIGHLIGHT SECTION: Hàng mới / Thu Đông (style ICONDENIM) --}}
+@if(($newProducts ?? collect())->count() || ($winterProducts ?? collect())->count())
+<section class="my-16 hanzo-container px-3" data-highlight-group>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                {{-- Left banner + sản phẩm bên dưới banner --}}
-                <div class="lg:col-span-3 hidden lg:block">
-                    <div class="relative w-full h-[520px] rounded-xl overflow-hidden group shadow-sm">
-                        <img src="{{ asset('images/banner/highlight-new.jpg') }}" alt="Hàng mới" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                        <div class="absolute left-5 bottom-7 text-white space-y-2">
-                            <p class="text-xs uppercase tracking-[0.28em]">Hàng mới</p>
-                            <h3 class="text-3xl font-bold leading-tight">IconDenim<br/>New Arrivals</h3>
-                            <a href="{{ route('products.index', ['is_new' => 1]) }}" class="inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-black hover:text-white transition">
-                                Xem ngay <span class="text-lg">›</span>
-                            </a>
-                        </div>
-                    </div>
-                    {{-- Sản phẩm hiển thị dưới banner (1 sản phẩm) --}}
-                    <div class="mt-4 grid grid-cols-1 gap-4">
-                        @foreach(($newProducts ?? collect())->take(1) as $product)
-                            <div class="rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all">
-                                <x-product-card :product="$product" fit="cover" />
-                            </div>
-                        @endforeach
+    {{-- Tabs --}}
+    <div class="flex items-center justify-end gap-6 mb-6 border-b border-slate-200">
+        <button class="highlight-tab px-0 py-3 text-[15px] font-semibold text-black border-b-2 border-black transition-all"
+                data-highlight-tab="new">
+            Hàng mới
+        </button>
+        <button class="highlight-tab px-0 py-3 text-[15px] font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all opacity-50 cursor-not-allowed"
+                data-highlight-tab="best" disabled>
+            Hàng bán chạy (sắp có)
+        </button>
+        <button class="highlight-tab px-0 py-3 text-[15px] font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all"
+                data-highlight-tab="winter">
+            Đồ Thu Đông
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-5 xl:gap-6">
+
+        {{-- LEFT: banner + 1 sản phẩm featured (thay đổi theo tab) --}}
+        <div class="hidden lg:flex lg:flex-col lg:gap-5">
+            {{-- Banner: Hàng mới --}}
+            <a href="{{ route('products.index', ['is_new' => 1]) }}"
+               class="highlight-banner group block rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all bg-white"
+               data-highlight-banner="new">
+                <div class="relative w-full aspect-[3/5] bg-[#f3f3f3] overflow-hidden">
+                    <img src="{{ asset('images/banner/highlight-new.jpg') }}"
+                         alt="Hàng mới"
+                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent"></div>
+                    <div class="absolute left-5 bottom-6 text-white space-y-2">
+                        <h3 class="text-3xl font-bold leading-tight">Hàng mới</h3>
+                        <span class="inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-full font-semibold text-sm group-hover:bg-black group-hover:text-white transition">
+                            Xem ngay <span class="text-lg">›</span>
+                        </span>
                     </div>
                 </div>
+            </a>
 
-                {{-- Right product grid - 4 cột --}}
-                <div class="lg:col-span-9">
-                    {{-- Panel: Hàng mới --}}
-                    <div class="highlight-panel grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 items-stretch" data-highlight-panel="new">
-                        @foreach(($newProducts ?? collect())->take(8) as $product)
-                            <div class="rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all group h-full min-h-[520px]">
-                                <x-product-card :product="$product" fit="cover" />
-                            </div>
-                        @endforeach
-                    </div>
+            {{-- Featured product: Hàng mới --}}
+            @if(($newProducts ?? collect())->isNotEmpty())
+                <div class="highlight-banner rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all group bg-white"
+                     data-highlight-banner="new">
+                    <x-product-card :product="$newProducts->first()" fit="cover" />
+                </div>
+            @endif
 
-                    {{-- Panel: Thu Đông --}}
-                    <div class="highlight-panel hidden grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 items-stretch" data-highlight-panel="winter">
-                        @foreach(($winterProducts ?? collect())->take(8) as $product)
-                            <div class="rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all group h-full min-h-[520px]">
-                                <x-product-card :product="$product" fit="cover" />
-                            </div>
-                        @endforeach
-                    </div>
-
-                    {{-- Panel: Bán chạy (placeholder) --}}
-                    <div class="highlight-panel hidden" data-highlight-panel="best">
-                        <div class="p-12 border border-dashed border-slate-300 rounded-lg bg-slate-50 text-slate-500 text-sm text-center">
-                            Bán chạy sẽ cập nhật tự động sau.
-                        </div>
-                    </div>
-
-                    {{-- Chỉ giữ nút Xem tất cả ở giữa giống mẫu --}}
-                    <div class="mt-8 flex justify-center">
-                        <a href="{{ route('products.index', ['is_new' => 1]) }}" class="px-8 py-3 rounded border border-slate-300 text-sm font-semibold text-slate-700 hover:border-black hover:text-black transition">Xem tất cả</a>
+            {{-- Banner: Thu Đông --}}
+            <a href="{{ route('products.index', ['collection' => 'winter']) }}"
+               class="highlight-banner hidden group block rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all bg-white"
+               data-highlight-banner="winter">
+                <div class="relative w-full aspect-[3/5] bg-[#f3f3f3] overflow-hidden">
+                    <img src="{{ asset('images/banner/highlight-winter.jpg') }}"
+                         alt="Đồ Thu Đông"
+                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent"></div>
+                    <div class="absolute left-5 bottom-6 text-white space-y-2">
+                        <h3 class="text-3xl font-bold leading-tight">Thu Đông</h3>
+                        <span class="inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-full font-semibold text-sm group-hover:bg-black group-hover:text-white transition">
+                            Xem ngay <span class="text-lg">›</span>
+                        </span>
                     </div>
                 </div>
+            </a>
+
+            {{-- Featured product: Thu Đông --}}
+            @if(($winterProducts ?? collect())->isNotEmpty())
+                <div class="highlight-banner hidden rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all group bg-white"
+                     data-highlight-banner="winter">
+                    <x-product-card :product="$winterProducts->first()" fit="cover" />
+                </div>
+            @endif
+        </div>
+
+        {{-- RIGHT: grid sản phẩm --}}
+        <div class="lg:col-span-4">
+            {{-- Panel: Hàng mới --}}
+            <div class="highlight-panel grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 xl:gap-5 items-stretch"
+                 data-highlight-panel="new">
+                {{-- Giới hạn 8 sản phẩm để hiển thị 2 hàng (4 cột) trên desktop --}}
+                @foreach(($newProducts ?? collect())->take(8) as $product)
+                    <div class="rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all group bg-white">
+                        <x-product-card :product="$product" fit="cover" />
+                    </div>
+                @endforeach
             </div>
-        </section>
-        @endif
+
+            {{-- Panel: Thu Đông --}}
+            <div class="highlight-panel hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 xl:gap-5 items-stretch"
+                 data-highlight-panel="winter">
+                {{-- Giới hạn 8 sản phẩm để hiển thị 2 hàng (4 cột) trên desktop --}}
+                @foreach(($winterProducts ?? collect())->take(8) as $product)
+                    <div class="rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all group bg-white">
+                        <x-product-card :product="$product" fit="cover" />
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- Panel: Bán chạy (placeholder) --}}
+            <div class="highlight-panel hidden" data-highlight-panel="best">
+                <div class="p-12 border border-dashed border-slate-300 rounded-lg bg-slate-50 text-slate-500 text-sm text-center">
+                    Bán chạy sẽ cập nhật tự động sau.
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-center">
+                {{-- CTA: Hàng mới --}}
+                <a href="{{ route('products.index', ['is_new' => 1]) }}"
+                   data-highlight-cta="new"
+                   class="inline-block px-6 py-2 border-2 border-slate-900 rounded-md font-medium transition-all duration-300 hover:bg-slate-900 hover:text-white hover:scale-105">
+                    Xem tất cả
+                </a>
+
+                {{-- CTA: Thu Đông --}}
+                <a href="{{ route('products.index', ['collection' => 'winter']) }}"
+                   data-highlight-cta="winter"
+                   class="hidden inline-block px-6 py-2 border-2 border-slate-900 rounded-md font-medium transition-all duration-300 hover:bg-slate-900 hover:text-white hover:scale-105">
+                    Xem tất cả
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+@endif
+
+  
+
+
+
+
 
         {{-- =====================
             CATEGORY SHOWCASE (Áo Thun / Áo Sơmi / Áo Polo)
@@ -552,5 +603,43 @@
     </div>
 </section>
 
-    
+
+{{-- Bộ sưu tập mới nhất (3 banner) --}}
+<section class="my-16">
+    <div class="hanzo-container px-3">
+        <h2 class="text-center text-2xl md:text-3xl font-bold text-slate-900 mb-8">Bộ Sưu Tập Mới Nhất</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {{-- Card 1 --}}
+            <a href="{{ route('products.index', ['collection' => 'retro-sports']) }}" class="group block rounded-2xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500">
+                <img src="{{ asset('images/banner/bst_retro.jpg') }}" alt="Retro Sports" class="w-full h-[520px] md:h-[620px] object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-transparent"></div>
+                <div class="absolute left-5 right-5 bottom-6 text-white">
+            
+                    <h3 class="text-2xl md:text-3xl font-extrabold leading-tight">Retro Sports</h3>
+                </div>
+            </a>
+
+            {{-- Card 2 --}}
+            <a href="{{ route('products.index', ['collection' => 'snoopy']) }}" class="group block rounded-2xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500">
+                <img src="{{ asset('images/banner/bst_snoopy.jpg') }}" alt="Snoopy" class="w-full h-[520px] md:h-[620px] object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-transparent"></div>
+                <div class="absolute left-5 right-5 bottom-6 text-white">
+                    <h3 class="text-2xl md:text-3xl font-extrabold leading-tight">Snoopy Collection</h3>
+                </div>
+            </a>
+
+            {{-- Card 3 --}}
+            <a href="{{ route('products.index', ['collection' => 'mickey-friends']) }}" class="group block rounded-2xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500">
+                <img src="{{ asset('images/banner/bst_m&f.jpg') }}" alt="Mickey & Friends" class="w-full h-[520px] md:h-[620px] object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-transparent"></div>
+                <div class="absolute left-5 right-5 bottom-6 text-white">
+            
+                    <h3 class="text-2xl md:text-3xl font-extrabold leading-tight">Mickey & Friends</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
 @endsection

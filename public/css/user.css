@@ -1,0 +1,420 @@
+/* User Dashboard & Account Pages Styles */
+
+:root {
+    --primary-color: #1f2937;
+    --secondary-color: #6b7280;
+    --light-bg: #f9fafb;
+    --border-color: #e5e7eb;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+}
+
+/* Account Sidebar */
+.account-sidebar {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.account-sidebar__header {
+    padding: 1rem;
+    background: var(--light-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.account-sidebar__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+.account-sidebar__email {
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+}
+
+.account-sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border-color);
+}
+
+.account-sidebar__nav-item {
+    display: block;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.account-sidebar__nav-item:last-child {
+    border-bottom: none;
+}
+
+.account-sidebar__nav-item:hover {
+    background-color: var(--light-bg);
+    color: var(--primary-color);
+}
+
+.account-sidebar__nav-item--active {
+    background-color: var(--light-bg);
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.account-sidebar__nav-item--logout {
+    color: var(--error-color);
+    font-weight: 500;
+    border-top: 1px solid var(--border-color);
+}
+
+.account-sidebar__nav-item--logout:hover {
+    background-color: #fee2e2;
+}
+
+/* Stats Cards */
+.stats-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.stats-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.stats-card__label {
+    color: var(--secondary-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.stats-card__value {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Order Tables */
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.order-table thead {
+    background-color: var(--light-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-table th {
+    text-align: left;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.order-table td {
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-table tbody tr:hover {
+    background-color: var(--light-bg);
+}
+
+.order-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-badge--pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge--processing {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.status-badge--shipping {
+    background-color: #e9d5ff;
+    color: #6b21a8;
+}
+
+.status-badge--completed {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-badge--canceled {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.status-badge--paid {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-badge--unpaid {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn--primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn--primary:hover {
+    background-color: #111827;
+}
+
+.btn--secondary {
+    background-color: var(--light-bg);
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn--secondary:hover {
+    background-color: #f3f4f6;
+}
+
+.btn--danger {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.btn--danger:hover {
+    background-color: #dc2626;
+}
+
+.btn--success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn--success:hover {
+    background-color: #059669;
+}
+
+.btn--block {
+    display: block;
+    width: 100%;
+}
+
+/* Order Status Timeline */
+.order-timeline {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.timeline-item {
+    flex: 1;
+    text-align: center;
+}
+
+.timeline-item__icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: white;
+    background-color: var(--secondary-color);
+    transition: background-color 0.3s;
+}
+
+.timeline-item--active .timeline-item__icon {
+    background-color: var(--success-color);
+}
+
+.timeline-item--completed .timeline-item__icon {
+    background-color: var(--success-color);
+}
+
+.timeline-item__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+.timeline-item__date {
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+}
+
+/* Alert Messages */
+.alert {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+}
+
+.alert--success {
+    background-color: #dcfce7;
+    border: 1px solid #86efac;
+    color: #166534;
+}
+
+.alert--error {
+    background-color: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+}
+
+.alert--warning {
+    background-color: #fef3c7;
+    border: 1px solid #fde68a;
+    color: #92400e;
+}
+
+.alert--info {
+    background-color: #dbeafe;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+}
+
+/* Profile Form Sections */
+.form-section {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-section__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.form-section__divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 1.5rem 0;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1.5rem;
+}
+
+.empty-state__icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.empty-state__description {
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .order-table {
+        font-size: 0.75rem;
+    }
+
+    .order-table th,
+    .order-table td {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .order-timeline {
+        gap: 1rem;
+    }
+
+    .timeline-item__icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 0.875rem;
+    }
+
+    .stats-card__value {
+        font-size: 1.5rem;
+    }
+}

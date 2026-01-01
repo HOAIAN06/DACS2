@@ -1,0 +1,167 @@
+/* =========================
+   QUICK ADD MODAL – HANZO (Luxury)
+   (Giữ nguyên class/logic, chỉ làm đẹp UI)
+   ========================= */
+
+:root{
+  --hz-bg: #ffffff;
+  --hz-ink: #0b1220;
+  --hz-muted: #64748b;
+  --hz-line: #e5e7eb;
+  --hz-line2:#eef2f7;
+  --hz-soft:#f8fafc;
+  --hz-shadow: 0 28px 90px rgba(2,6,23,.25);
+  --hz-shadow2: 0 18px 40px rgba(2,6,23,.18);
+  --hz-radius: 24px;
+}
+
+/* Overlay */
+.hz-quick-add-modal{
+  /* bạn đang set display:flex ở đây -> ok, giữ */
+  animation: hzFade .22s ease-out;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  /* giúp overlay “đã” hơn */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+@keyframes hzFade{
+  from{ opacity:0 }
+  to{ opacity:1 }
+}
+
+/* Panel */
+.hz-quick-add-content{
+  background: var(--hz-bg);
+  border: 1px solid rgba(15,23,42,.10);
+  border-radius: var(--hz-radius);
+  box-shadow: var(--hz-shadow);
+  overflow:hidden;
+
+  animation: hzPop .32s cubic-bezier(.2,.9,.2,1);
+  transform-origin: center;
+}
+
+@keyframes hzPop{
+  from{ transform: translateY(14px) scale(.985); opacity:0 }
+  to{ transform: translateY(0) scale(1); opacity:1 }
+}
+
+/* Close button – sang hơn, không xoay cả button quá nhiều */
+.hz-modal-close{
+  transition: transform .18s ease, background-color .18s ease, box-shadow .18s ease;
+  box-shadow: 0 10px 25px rgba(2,6,23,.18);
+  border: 1px solid rgba(15,23,42,.10);
+}
+
+.hz-modal-close:hover{
+  transform: translateY(-1px);
+  background-color: #fff !important;
+  box-shadow: 0 16px 35px rgba(2,6,23,.22);
+}
+
+/* Nếu bạn muốn xoay icon chứ không xoay nút */
+.hz-modal-close svg{
+  transition: transform .18s ease;
+}
+.hz-modal-close:hover svg{
+  transform: rotate(90deg);
+}
+
+/* Ảnh: nhìn sạch, cao cấp */
+#hz-qa-image{
+  background: #fff;
+  border: 1px solid rgba(15,23,42,.06);
+  border-radius: 18px;
+  box-shadow: var(--hz-shadow2);
+}
+
+/* ========== Color & Size Buttons (Giữ nguyên class) ========== */
+.hz-qa-color-btn,
+.hz-qa-size-btn{
+  /* override phần bạn bị trùng ở dưới */
+  border-radius: 14px;
+  border: 1px solid var(--hz-line);
+  background: #fff;
+  color: var(--hz-ink);
+  padding: 10px 14px;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: .2px;
+  white-space: nowrap;
+
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
+}
+
+/* Hover: tinh tế, nổi khối nhẹ */
+.hz-qa-color-btn:hover,
+.hz-qa-size-btn:hover{
+  border-color: rgba(15,23,42,.28);
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(2,6,23,.10);
+  transform: translateY(-1px);
+}
+
+/* Active: “luxury black” */
+.hz-qa-color-btn.active,
+.hz-qa-size-btn.active{
+  background: linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+  color: #fff;
+  border-color: rgba(15,23,42,.65);
+  box-shadow: 0 14px 28px rgba(2,6,23,.22);
+}
+
+/* Size grid button: đều và gọn */
+.hz-qa-size-btn{
+  padding: 10px 0;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Disabled */
+.hz-qa-size-btn:disabled{
+  opacity: .35;
+  cursor: not-allowed;
+  background: #f8fafc;
+  border-color: #eef2f7;
+  box-shadow: none;
+  transform: none;
+}
+
+/* (Optional) làm “chip màu” trông giống swatch nếu text là màu cơ bản.
+   Không phá logic: chỉ thêm style nhẹ */
+.hz-qa-color-btn::before{
+  content:"";
+  width:10px; height:10px;
+  border-radius:999px;
+  display:inline-block;
+  margin-right:8px;
+  background: #e5e7eb;
+  border: 1px solid rgba(15,23,42,.10);
+  vertical-align: middle;
+}
+
+/* ========== Scrollbar – mảnh & sang ========== */
+.hz-quick-add-content::-webkit-scrollbar{ width: 8px; }
+.hz-quick-add-content::-webkit-scrollbar-track{ background: transparent; }
+.hz-quick-add-content::-webkit-scrollbar-thumb{
+  background: rgba(100,116,139,.35);
+  border-radius: 999px;
+}
+.hz-quick-add-content::-webkit-scrollbar-thumb:hover{
+  background: rgba(100,116,139,.55);
+}
+
+/* ========== Mobile ========== */
+@media (max-width: 768px){
+  .hz-quick-add-content{
+    max-height: 92vh;
+    border-radius: 18px;
+  }
+}
+
+/* ========== (Optional) nếu bạn dùng class khóa scroll nền ========== */
+.hz-no-scroll{ overflow: hidden !important; }

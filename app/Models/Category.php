@@ -15,9 +15,13 @@ class Category extends Model
     protected $fillable = [
         'name',
         'slug',
+        'banner_url',
         'parent_id',
-        'description',
+        'position',
         'is_active',
+        'status',
+        'show_in_menu',
+        'show_on_home',
     ];
 
     protected $casts = [
@@ -28,6 +32,12 @@ class Category extends Model
     public function products()
     {
             return $this->hasMany(Product::class, 'category_id');
+        }
+    public function children()
+    {
+            return $this->hasMany(Category::class, 'parent_id')
+                ->where('is_active', true)
+                ->orderBy('name');
         }
     // Tự generate slug nếu chưa có
     protected static function booted()

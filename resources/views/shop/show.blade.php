@@ -15,7 +15,7 @@
                     </p>
                 </div>
 
-                <form method="GET" action="{{ route('shop') }}" class="d-flex flex-wrap gap-2">
+                <form method="GET" action="{{ route('products.index') }}" class="d-flex flex-wrap gap-2">
                     {{-- Ô tìm kiếm --}}
                     <input type="text"
                            name="q"
@@ -102,21 +102,48 @@
                     @endforeach
                 </div>
 
-                {{-- PHÂN TRANG --}}
-                <div class="mt-4">
-                    {{ $products->withQueryString()->links() }}
-                </div>
+{{-- Pagination --}}
+                @if ($products->hasPages())
+                    <nav class="hz-pagination" role="navigation" aria-label="Pagination">
+                        {{-- Previous --}}
+                        @if ($products->onFirstPage())
+                            <span class="hz-page hz-page--arrow is-disabled" aria-disabled="true">‹</span>
+                        @else
+                            <a class="hz-page hz-page--arrow"
+                               href="{{ $products->appends(request()->query())->previousPageUrl() }}"
+                               rel="prev"
+                               aria-label="Previous page">‹</a>
+                        @endif
+
+                        {{-- Numbers --}}
+                        @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                            @if ($page == $products->currentPage())
+                                <span class="hz-page is-active" aria-current="page">{{ $page }}</span>
+                            @else
+                                <a class="hz-page" href="{{ $url }}">{{ $page }}</a>
+                            @endif
+                        @endforeach
+
+                        {{-- Next --}}
+                        @if ($products->hasMorePages())
+                            <a class="hz-page hz-page--arrow"
+                               href="{{ $products->appends(request()->query())->nextPageUrl() }}"
+                               rel="next"
+                               aria-label="Next page">›</a>
+                        @else
+                            <span class="hz-page hz-page--arrow is-disabled" aria-disabled="true">›</span>
+                        @endif
+                    </nav>
+                @endif
+
             @else
-                <div class="hz-card text-center">
-                    <p class="mb-1" style="font-size:14px; font-weight:500;">
-                        Hiện chưa có sản phẩm nào phù hợp điều kiện lọc.
-                    </p>
-                    <p class="hz-section-sub mb-0">
-                        Hãy thử xoá bộ lọc hoặc quay lại sau nhé.
-                    </p>
+                <div class="text-center py-5 text-muted">
+                    Không có sản phẩm nào.
                 </div>
             @endif
         </section>
+
+
 
     </div>
 @endsection

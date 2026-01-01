@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProductImage extends Model
 {
@@ -17,6 +19,25 @@ class ProductImage extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function getFullUrlAttribute(): ?string
+    {
+        if (!$this->image_url) {
+            return null;
+        }
+
+        if (Str::startsWith($this->image_url, ['http://', 'https://', '//'])) {
+            return $this->image_url;
+        }
+
+        // Ảnh cũ nằm trong public/images/, dùng asset()
+        if (Str::startsWith($this->image_url, ['/images/', 'images/'])) {
+            return asset($this->image_url);
+        }
+
+        // Ảnh mới lưu trong storage/app/public/products/, dùng Storage::url()
+        return Storage::url($this->image_url);
     }
 }

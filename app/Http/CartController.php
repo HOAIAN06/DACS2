@@ -54,9 +54,11 @@ class CartController extends Controller
             'product_id' => ['required','integer'],
             'variant_id' => ['nullable','integer'],
             'qty'        => ['nullable','integer','min:1'],
+            'action'     => ['nullable','string','in:add_to_cart,buy_now'],
         ]);
 
         $qty = (int)($data['qty'] ?? 1);
+        $action = $data['action'] ?? 'add_to_cart';
 
         $product = Product::findOrFail($data['product_id']);
 
@@ -65,6 +67,15 @@ class CartController extends Controller
             $variant = ProductVariant::where('id', $data['variant_id'])
                 ->where('product_id', $product->id)
                 ->firstOrFail();
+            
+            // Validate stock
+            if ($variant->stock === 0) {
+                return back()->withErrors(['stock' => 'Sản phẩm này hiện đã hết hàng!']);
+            }
+            
+            if ($qty > $variant->stock) {
+                return back()->withErrors(['stock' => "Chỉ còn {$variant->stock} sản phẩm trong kho!"]);
+            }
         }
 
         // Giá ưu tiên theo variant nếu có, không thì lấy price của product
@@ -89,6 +100,11 @@ class CartController extends Controller
                 'qty' => $qty,
                 'price' => $unitPrice,
             ]);
+        }
+
+        // Nếu là buy_now thì chuyển thẳng đến checkout
+        if ($action === 'buy_now') {
+            return redirect()->route('checkout.index');
         }
 
         return redirect()->route('cart.index')->with('success', 'Đã thêm vào giỏ hàng!');

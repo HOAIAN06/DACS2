@@ -3,43 +3,107 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    // Quan hệ: 1 sản phẩm thuộc 1 category
+    protected $fillable = [
+        'name',
+        'slug',
+        'category_id',
+        'price',
+        'price_original',
+        'description',
+        'stock',
+        'thumbnail_url',
+        'is_active',
+        'is_new',
+        'is_best_seller',
+        'is_outlet',
+        'tag',
+        'status',
+        'collection',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'is_new' => 'boolean',
+        'is_best_seller' => 'boolean',
+        'is_outlet' => 'boolean',
+    ];
+
     public function category()
     {
-        // 'category_id' là foreign key trong bảng products
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    // 1. Tất cả ảnh của sản phẩm
     public function images()
     {
         return $this->hasMany(ProductImage::class);
     }
 
-    // 2. Ảnh chính (ưu tiên is_main = 1)
     public function mainImage()
     {
         return $this->hasOne(ProductImage::class)
             ->where('is_main', 1)
-            ->orderBy('sort_order');   // nếu nhiều ảnh main thì lấy cái sort nhỏ nhất
+            ->orderBy('sort_order');
     }
 
-    // 3. Accessor trả về URL thumbnail (dùng luôn trong Blade)
-    public function getThumbnailAttribute()
+    public function variants()
     {
-        // Ưu tiên ảnh main
-        $img = $this->images
-            ->sortBy('sort_order')
-            ->firstWhere('is_main', 1);
+        return $this->hasMany(ProductVariant::class);
+    }
 
-        // Nếu không có ảnh main -> lấy ảnh đầu tiên
-        if (! $img) {
-            $img = $this->images->sortBy('sort_order')->first();
+    private function resolveImageUrl(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
         }
 
-        return $img?->image_url;
+        if (Str::startsWith($path, ['http://', 'https://', '//'])) {
+            return $path;
+        }
+
+        // Ảnh cũ nằm trong public/images/, dùng asset()
+        if (Str::startsWith($path, ['/images/', 'images/'])) {
+            return asset($path);
+        }
+
+        // Ảnh mới lưu trong storage/app/public/products/, dùng Storage::url()
+        return \Illuminate\Support\Facades\Storage::url($path);
+    }
+
+    public function getMainImageUrlAttribute(): ?string
+    {
+        $image = null;
+
+        if ($this->relationLoaded('mainImage')) {
+            $image = $this->mainImage;
+        }
+
+        if (!$image) {
+            $image = $this->mainImage()->first();
+        }
+
+        if (!$image && $this->relationLoaded('images')) {
+            $image = $this->images->sortBy('sort_order')->first();
+        }
+
+        if (!$image) {
+            $image = $this->images()->orderBy('sort_order')->first();
+        }
+
+        // Nếu không tìm thấy trong product_images, fallback về thumbnail_url (cho sản phẩm cũ)
+        if (!$image && $this->thumbnail_url) {
+            return $this->resolveImageUrl($this->thumbnail_url);
+        }
+
+        return $this->resolveImageUrl($image?->image_url);
+    }
+
+    // $product->thumbnail => trả ra image_url (string) từ product_images
+    public function getThumbnailAttribute()
+    {
+        return $this->getMainImageUrlAttribute();
     }
 }

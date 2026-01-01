@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::withCount('products')->orderBy('name')->paginate(15);
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -28,8 +28,8 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name'        => 'required|string|max:255',
             'slug'        => 'nullable|string|max:255|unique:categories,slug',
+            'banner_url'  => 'nullable|string|max:255',
             'parent_id'   => 'nullable|exists:categories,id',
-            'description' => 'nullable|string',
             'is_active'   => 'nullable|boolean',
         ]);
 
@@ -54,8 +54,8 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name'        => 'required|string|max:255',
             'slug'        => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
+            'banner_url'  => 'nullable|string|max:255',
             'parent_id'   => 'nullable|exists:categories,id',
-            'description' => 'nullable|string',
             'is_active'   => 'nullable|boolean',
         ]);
 

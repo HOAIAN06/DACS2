@@ -12,6 +12,93 @@
     box-sizing: border-box;
 }
 
+/* ===========================
+   ANIMATIONS & KEYFRAMES
+   =========================== */
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale In Animation */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Shimmer Loading Effect */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
 /* BODY / GLOBAL 
    (sẽ được override bên dưới cho theme icondenim)
 */
@@ -28,6 +115,296 @@ body {
 }
 
 /* ===========================
+   ANNOUNCEMENT BAR (Top Bar)
+   =========================== */
+.hz-announcement-bar {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    color: white;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.hz-announcement-bar.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Announcement Slider */
+.hz-announcement-slider {
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.hz-announcement-track {
+    display: flex;
+    gap: 0;
+    animation: slideAnnouncement 30s linear infinite;
+    will-change: transform;
+}
+
+.hz-announcement-track:hover {
+    animation-play-state: paused;
+}
+
+.hz-announcement-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    padding: 0 20px;
+}
+
+@keyframes slideAnnouncement {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Announcement Bar Close Button */
+#hz-topbar-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+#hz-topbar-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+/* Product image wrapper - fallback for missing images */
+.product-image-wrapper {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+.product-image-wrapper img {
+    background: linear-gradient(135deg, #e8eef7 0%, #d9e1f0 100%);
+}
+
+/* ===========================
+   LOADING SKELETON
+   =========================== */
+.hz-skeleton {
+    position: relative;
+    overflow: hidden;
+    background: #e5e7eb;
+}
+
+.hz-skeleton img {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hz-skeleton.loaded img {
+    opacity: 1;
+}
+
+.hz-skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+    animation: shimmer 1.5s infinite;
+    transform: translateX(-100%);
+}
+
+.hz-skeleton.loaded::after {
+    display: none;
+}
+
+/* ===========================
+   SEARCH MODAL
+   =========================== */
+/* ===== SEARCH MODAL (giống kiểu dropdown IconDenim) ===== */
+#hz-search-modal{
+  transform: translateY(-12px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+#hz-search-modal.active{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+#hz-search-overlay.active{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* ===== SEARCH MODAL giống IconDenim ===== */
+#hz-search-modal {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-12px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+#hz-search-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* overlay */
+#hz-search-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+
+#hz-search-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===========================
+   SEARCH KEYWORDS (chips)
+   =========================== */
+
+/* container (nếu cần) */
+#hz-search-modal .hz-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* base chip */
+#hz-search-modal .hz-search-category {
+  appearance: none;
+  border: 1px solid #cbd5e1;      /* slate-300 */
+  background: #fff;
+  color: #0f172a;                  /* slate-900 */
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+  user-select: none;
+}
+
+/* hover */
+#hz-search-modal .hz-search-category{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 18px;
+  border-radius: 10px;
+
+  background: #fff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+
+  transition: transform .15s ease, box-shadow .15s ease, color .15s ease, border-color .15s ease, background-color .15s ease;
+}
+
+#hz-search-modal .hz-search-category:hover{
+  color: #ff5a1f !important;          /* chữ sáng lên */
+  border-color: #ff5a1f !important;   /* viền đổi màu */
+  box-shadow: 0 6px 16px rgba(255, 90, 31, .18) !important;
+  transform: translateY(-1px);
+}
+
+.hz-search-category:hover {
+  color: #ff5a1f;                 /* cam sáng */
+  border-color: #ff5a1f;
+  box-shadow: 0 4px 10px rgba(255, 90, 31, 0.15);
+  transform: translateY(-1px);
+}
+/* pressed */
+#hz-search-modal .hz-search-category:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* focus (tab bằng bàn phím) */
+#hz-search-modal .hz-search-category:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.18);
+}
+
+/* bỏ rule cũ đang làm "Tất cả" bị lệch style (nếu còn) */
+#hz-search-modal .hz-search-category:first-child {
+  border-color: #cbd5e1;
+  color: #0f172a;
+  background: #fff;
+}
+
+
+
+
+/* ===========================
+   STICKY ADD TO CART (MOBILE)
+   =========================== */
+.hz-sticky-cart {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    background: rgba(15, 23, 42, 0.96);
+    backdrop-filter: blur(10px);
+    padding: 12px 16px;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
+    transform: translateY(110%);
+    transition: transform 0.3s ease;
+}
+
+/* ===========================
+   MOBILE DRAWER MENU
+   =========================== */
+#hz-mobile-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#hz-mobile-drawer.active {
+    transform: translateX(0);
+}
+
+[data-mobile-accordion][aria-expanded="true"] [data-accordion-icon] {
+    transform: rotate(180deg);
+}
+
+[data-accordion-panel] {
+    transition: max-height 0.25s ease;
+    max-height: 0;
+}
+
+[data-accordion-panel].open {
+    display: block;
+    max-height: 400px;
+}
+
+.hz-sticky-cart.show {
+    transform: translateY(0);
+}
+
+@media (min-width: 768px) {
+    .hz-sticky-cart {
+        display: none;
+    }
+}
+
+/* ===========================
    HEADER
    =========================== */
 .hz-header {
@@ -38,12 +415,132 @@ body {
     z-index: 50;
 }
 
+/* Header Scroll Effect */
+#hz-header.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
 .hz-logo {
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     letter-spacing: 4px;
     font-weight: 600;
     color: #111827;
+}
+
+/* ===========================
+   SEARCH BAR WITH EXPAND ANIMATION
+   =========================== */
+.hz-search-wrapper {
+    position: relative;
+}
+
+.hz-search-bar {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 36px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+.hz-search-bar.active {
+    width: 320px;
+    opacity: 1;
+    pointer-events: auto;
+    border-color: #111827;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hz-search-bar input {
+    background: transparent;
+    border: none;
+}
+
+.hz-search-bar input:focus {
+    outline: none;
+}
+
+/* ===========================
+   TOOLTIPS
+   =========================== */
+.hz-tooltip {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    background: #1f2937;
+    color: white;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+.hz-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #1f2937;
+}
+
+.hz-icon-wrapper:hover .hz-tooltip,
+.hz-search-wrapper:hover .hz-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ===========================
+   CART BADGE WITH PULSE
+   =========================== */
+.hz-cart-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    border: 2px solid white;
+    animation: cartPulse 2s ease-in-out infinite;
+}
+
+@keyframes cartPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 4px rgba(220, 38, 38, 0);
+    }
 }
 
 /* NAVIGATION */
@@ -214,12 +711,8 @@ body {
 }
 
 /* Active state: text đen, border đen */
-.cat-tab.active,
-.cat-tab.!text-slate-900 {
+.cat-tab.active {
     color: #111827 !important;
-}
-
-.cat-tab.!border-slate-900 {
     border-bottom-color: #111827 !important;
 }
 
@@ -268,6 +761,14 @@ body {
 
 
 
+
+/* DEBUG main visibility */
+main {
+    background: #ffffff !important;
+    display: block !important;
+    visibility: visible !important;
+    min-height: 100vh;
+}
 
 /* Container mới cho HANZO – cho card bớt chật, rộng kiểu icondenim */
 .hanzo-container {
@@ -374,18 +875,21 @@ body.hz-modal-open {
 
 .hz-megamenu {
     position: absolute;
-    top: 100%;
-    left: 50%;
-    /* transform: translateX(-50%); */
-    margin-top: 0;
-    padding: 28px 36px;
-    min-width: 900px;
-    background: #ffffff;
-    border-radius: 18px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-    border: 1px solid #e5e7eb;
-    z-index: 40;
-    transition: opacity .18s ease;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(100% + 12px);
+
+  /* giữ đúng vibe */
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+
+  /* QUAN TRỌNG: dùng đúng width như HTML (w-[1200px]) */
+  width: 1200px;
+  max-width: calc(100vw - 48px);
+
+  z-index: 40;
 
 }
 
@@ -397,12 +901,12 @@ body.hz-modal-open {
 
 /* Tiêu đề cột trong megamenu */
 .hz-megamenu-title {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #6b7280;
-    margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 14px;
 }
 
 /* List link trong megamenu */
@@ -417,23 +921,26 @@ body.hz-modal-open {
 }
 
 .hz-megamenu-list a {
-    font-size: 15px;
-    font-weight: 400;
-    color: #111827;
-    text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+  text-decoration: none;
 }
 
 .hz-megamenu-list a:hover {
     color: #e11b22;
 }
 .hz-megamenu::before {
-    content: '';
-    position: absolute;
-    top: -14px;             /* độ cao “cầu nối” (14px) – có thể chỉnh 10–16 nếu muốn */
-    left: 0;
-    right: 0;
-    height: 14px;
-    background: transparent;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -16px;
+  height: 16px;
+  background: transparent;
+}
+.hz-megamenu-list a:hover {
+  color: #e11b22;
 }
 /* ===========================
    MAIN NAV (menu trên)
@@ -744,7 +1251,7 @@ body.hz-modal-open {
 .retro-sports-section {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background: linear-gradient(180deg, #d4d4a8 0%, #e8e8d0 45%, #f5f5e6 100%);
+    background: linear-gradient(180deg, #3d6e46 0%, #0a792d 45%, #529569 100%);
     padding: 40px 0;
 }
 
@@ -852,7 +1359,7 @@ body.hz-modal-open {
 .jeans-section {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background: linear-gradient(180deg, #3f7798 0%, #8bc5e0 30%, #9bd5ec 60%, #b8e5f5 100%);
+    background: linear-gradient(180deg, #02466e 0%, #4d91b0 30%, #4c8298 60%, #0f769c 100%);
     padding: 40px 0;
 }
 
@@ -884,3 +1391,104 @@ body.hz-modal-open {
     overflow: hidden;
 }
 
+/* ===========================
+   MICRO-INTERACTIONS & ANIMATIONS (Simplified)
+   =========================== */
+
+/* Button Hover Effects - Keep simple */
+button, a.inline-block {
+    transition: all 0.3s ease;
+}
+
+button:hover, a.inline-block:hover {
+    transform: translateY(-1px);
+}
+
+button:active, a.inline-block:active {
+    transform: translateY(0);
+}
+
+/* Banner Hover Effect - Subtle */
+.hero-banner, [class*="banner"] {
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-banner img, [class*="banner"] img {
+    transition: transform 0.4s ease;
+}
+
+.hero-banner:hover img, [class*="banner"]:hover img {
+    transform: scale(1.03);
+}
+
+/* Tab Animation */
+.highlight-tab, .cat-tab {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.highlight-tab::after, .cat-tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+
+.highlight-tab:hover::after, .cat-tab:hover::after {
+    width: 100%;
+}
+
+/* Icon Hover Animations - Keep subtle */
+.action-btn {
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+/* Smooth Transitions for Links */
+a {
+    transition: color 0.2s ease;
+}
+
+/* Input Focus Animation */
+input:focus, textarea:focus {
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Swiper Navigation Buttons - disable hover animation */
+.swiper-button-next, .swiper-button-prev,
+[class*="-next"], [class*="-prev"] {
+    transition: none;
+}
+
+.swiper-button-next:hover, .swiper-button-prev:hover,
+[class*="-next"]:hover, [class*="-prev"]:hover {
+    transform: none;
+}
+
+.hz-color-btn.is-active,
+.hz-size-btn.is-active{
+  background:#0f172a;
+  color:#fff;
+  border-color:#0f172a;
+}
+
+.hz-size-btn.is-disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+.hz-gallery-thumb.is-active{
+  border-color:#0f172a; /* hoặc style riêng */
+}
