@@ -3,6 +3,7 @@ name: Tests
 on:
   push:
     branches:
+      - main
       - master
       - '*.x'
   pull_request:
@@ -17,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         php: [8.2, 8.3]
 
@@ -40,11 +41,10 @@ jobs:
       - name: Prepare environment
         run: |
           cp .env.example .env || true
-          php -r "file_exists('.env') || (file_exists('.env.example') && copy('.env.example', '.env'));" || true
           echo "APP_ENV=testing" >> .env
           echo "APP_KEY=" >> .env
           echo "DB_CONNECTION=sqlite" >> .env
-          echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
+          echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
 
       - name: Create SQLite database
         run: |
@@ -55,7 +55,15 @@ jobs:
         run: php artisan key:generate
 
       - name: Run migrations
+        env:
+          APP_ENV: testing
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ${{ github.workspace }}/database/database.sqlite
         run: php artisan migrate --force
 
       - name: Execute tests
+        env:
+          APP_ENV: testing
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ${{ github.workspace }}/database/database.sqlite
         run: php artisan test
