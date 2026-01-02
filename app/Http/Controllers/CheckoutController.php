@@ -166,6 +166,16 @@ class CheckoutController extends Controller
                 ]);
             }
 
+            // Cộng dồn số lượng bán cho từng sản phẩm
+            $soldCounts = [];
+            foreach ($cart->items as $item) {
+                $soldCounts[$item->product_id] = ($soldCounts[$item->product_id] ?? 0) + (int)$item->qty;
+            }
+
+            foreach ($soldCounts as $productId => $qty) {
+                Product::where('id', $productId)->increment('total_sold', $qty);
+            }
+
             // Xóa giỏ hàng
             $cart->update(['status' => 'completed']);
             $cart->items()->delete();

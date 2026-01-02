@@ -74,7 +74,7 @@
                             name="email"
                             value="{{ old('email') }}"
                             class="w-full pl-12 pr-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900 focus:bg-white transition-all duration-300"
-                            placeholder="your@email.com"
+                            
                             required
                         >
                     </div>

@@ -26,8 +26,9 @@ class ProductController extends Controller
 
         $products = $query->orderByDesc('id')->paginate(15);
         
-        // Force paginator to use correct path
+        // Force paginator to use correct path and preserve query parameters
         $products->setPath(route('admin.products.index'));
+        $products->appends($request->query());
 
         return view('admin.products.index', compact('products'));
     }
@@ -63,6 +64,7 @@ class ProductController extends Controller
         // Save main image
         if ($request->hasFile('main_image')) {
             $mainImagePath = $request->file('main_image')->store('products', 'public');
+            \Log::info('Main image stored: ' . $mainImagePath);
             $product->images()->create([
                 'image_url' => $mainImagePath,
                 'is_main' => true,
@@ -74,6 +76,7 @@ class ProductController extends Controller
         if ($request->hasFile('additional_images')) {
             foreach ($request->file('additional_images') as $index => $image) {
                 $imagePath = $image->store('products', 'public');
+                \Log::info('Additional image stored: ' . $imagePath);
                 $product->images()->create([
                     'image_url' => $imagePath,
                     'is_main' => false,
@@ -158,9 +161,11 @@ class ProductController extends Controller
             if ($mainImage) {
                 Storage::disk('public')->delete($mainImage->image_url);
                 $mainImagePath = $request->file('main_image')->store('products', 'public');
+                \Log::info('Main image updated: ' . $mainImagePath);
                 $mainImage->update(['image_url' => $mainImagePath]);
             } else {
                 $mainImagePath = $request->file('main_image')->store('products', 'public');
+                \Log::info('Main image created: ' . $mainImagePath);
                 $product->images()->create([
                     'image_url' => $mainImagePath,
                     'is_main' => true,
@@ -174,6 +179,7 @@ class ProductController extends Controller
             $currentMaxOrder = $product->images()->max('sort_order') ?? 0;
             foreach ($request->file('additional_images') as $index => $image) {
                 $imagePath = $image->store('products', 'public');
+                \Log::info('Additional image added: ' . $imagePath);
                 $product->images()->create([
                     'image_url' => $imagePath,
                     'is_main' => false,
@@ -227,11 +233,22 @@ class ProductController extends Controller
 
     public function deleteImage($id)
     {
-        $image = \App\Models\ProductImage::findOrFail($id);
-        Storage::disk('public')->delete($image->image_url);
-        $image->delete();
-
-        return response()->json(['success' => true]);
+        try {
+            $image = \App\Models\ProductImage::findOrFail($id);
+            
+            // Attempt to delete from storage if exists
+            if ($image->image_url && Storage::disk('public')->exists($image->image_url)) {
+                Storage::disk('public')->delete($image->image_url);
+            }
+            
+            $image->delete();
+            \Log::info('Image deleted: ' . $image->image_url);
+            
+            return response()->json(['success' => true, 'message' => 'Xóa ảnh thành công']);
+        } catch (\Exception $e) {
+            \Log::error('Delete image error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+        }
     }
 
     public function toggle($id)
@@ -270,19 +287,50 @@ class ProductController extends Controller
         ]);
     }
 
-    public function destroy(Request $request, Product $product)
+    public function toggleFlags($id, Request $request)
     {
+        $product = Product::findOrFail($id);
+
+        $data = $request->validate([
+            'type' => 'required|string|in:new,hot',
+            'value' => 'required|boolean',
+        ]);
+
+        if ($data['type'] === 'new') {
+            $product->is_new = $data['value'];
+            $product->save();
+            return response()->json(['success' => true, 'message' => 'Đã cập nhật Hàng mới']);
+        }
+
+        // hot
+        $product->is_best_seller = $data['value'];
+        $product->save();
+        return response()->json(['success' => true, 'message' => 'Đã cập nhật Bán chạy']);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        // Manually retrieve product
+        $product = Product::findOrFail($id);
+        
+        \Log::info('Delete product: ' . $product->id . ' - ' . $product->name);
+        
         // Delete all product images
         foreach ($product->images as $image) {
+            \Log::info('Deleting image: ' . $image->image_url);
             Storage::disk('public')->delete($image->image_url);
             $image->delete();
         }
 
-        if ($product->thumbnail) {
-            Storage::disk('public')->delete($product->thumbnail);
+        if ($product->thumbnail_url) {
+            \Log::info('Deleting thumbnail: ' . $product->thumbnail_url);
+            Storage::disk('public')->delete($product->thumbnail_url);
         }
 
+
+        \Log::info('Deleting product record: ' . $product->id);
         $product->delete();
+        \Log::info('Product deleted: ' . $product->id);
 
         // Preserve query parameters (page, filters, etc.)
         $queryParams = $request->except(['_token', '_method']);

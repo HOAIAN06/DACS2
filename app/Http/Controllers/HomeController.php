@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
     public function index()
     {
+                $hasTotalSold = Schema::hasColumn('products', 'total_sold');
+
         // Lấy 20 sản phẩm mới nhất (dự phòng)
         $products = Product::orderBy('created_at', 'desc')->take(20)->get();
 
@@ -61,10 +64,13 @@ class HomeController extends Controller
         ->get();
 
 
-                // Hàng mới (is_new = 1)
+                // Hàng mới: flag is_new hoặc auto 30 ngày
                 $newProducts = Product::with('mainImage')
-                        ->where('is_new', 1)
                         ->where('is_active', 1)
+                        ->where(function ($q) {
+                            $q->where('is_new', 1)
+                              ->orWhere('created_at', '>=', now()->subDays(30));
+                        })
                         ->orderBy('created_at', 'desc')
                         ->take(12)
                         ->get();
@@ -77,9 +83,22 @@ class HomeController extends Controller
                         ->take(12)
                         ->get();
 
+                // Bán chạy: ưu tiên total_sold, fallback is_best_seller
+                                $bestSellerProducts = Product::with('mainImage')
+                                                ->where('is_active', 1)
+                                                ->where(function ($q) use ($hasTotalSold) {
+                                                        if ($hasTotalSold) {
+                                                                $q->where('total_sold', '>', 10);
+                                                        }
+                                                        $q->orWhere('is_best_seller', 1);
+                                                })
+                                                ->when($hasTotalSold, fn($q) => $q->orderByDesc('total_sold'))
+                                                ->orderByDesc('created_at')
+                                                ->take(12)
+                                                ->get();
+
                 // Các section khác tạm dùng chung
                 $signatureProducts  = $products;
-                $bestSellerProducts = $products;
                 $outletProducts     = $products;
 
         // SHORT: ví dụ lấy 10 sản phẩm có collection = "Short" hoặc tên bạn đang lưu

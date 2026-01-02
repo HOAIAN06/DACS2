@@ -89,6 +89,8 @@
                         <th class="text-left px-6 py-3 font-semibold text-slate-900">Sản phẩm</th>
                         <th class="text-right px-6 py-3 font-semibold text-slate-900">Giá</th>
                         <th class="text-right px-6 py-3 font-semibold text-slate-900">Giá mới</th>
+                        <th class="text-center px-6 py-3 font-semibold text-slate-900">Hàng mới</th>
+                        <th class="text-center px-6 py-3 font-semibold text-slate-900">Bán chạy</th>
                         <th class="text-left px-6 py-3 font-semibold text-slate-900">Danh mục</th>
                         <th class="text-left px-6 py-3 font-semibold text-slate-900">Kho</th>
                         <th class="text-center px-6 py-3 font-semibold text-slate-900">Hiển thị</th>
@@ -107,6 +109,31 @@
                             </td>
                             <td class="px-6 py-3 text-right text-slate-900 font-semibold" data-new-price="{{ $product->id }}">
                                 {{ number_format($product->price, 0, ',', '.') }}₫
+                            </td>
+                            @php
+                                // Hiển thị đúng trạng thái is_new từ DB, không auto theo ngày tạo
+                                $isNew = (bool) ($product->is_new ?? false);
+                                $isHot = (($product->total_sold ?? 0) > 10) || ($product->is_best_seller ?? false);
+                            @endphp
+                            <td class="px-6 py-3 text-center">
+                                <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+                                    <input type="checkbox"
+                                           class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"
+                                           name="new_toggle"
+                                           data-product-id="{{ $product->id }}"
+                                           data-type="new"
+                                           {{ $isNew ? 'checked' : '' }}>
+                                </label>
+                            </td>
+                            <td class="px-6 py-3 text-center">
+                                <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+                                    <input type="checkbox"
+                                           class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"
+                                           name="hot_toggle"
+                                           data-product-id="{{ $product->id }}"
+                                           data-type="hot"
+                                           {{ $isHot ? 'checked' : '' }}>
+                                </label>
                             </td>
                             <td class="px-6 py-3 text-slate-600">{{ $product->category->name ?? 'N/A' }}</td>
                             <td class="px-6 py-3 text-slate-600">{{ $product->stock }}</td>
@@ -161,6 +188,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const cancelBtn = document.getElementById('discountCancel');
     const toast = document.getElementById('discountSuccessToast');
     const toastText = document.getElementById('discountSuccessText');
+
+    if (!document.getElementById('hz-status-toast')) {
+        const el = document.createElement('div');
+        el.id = 'hz-status-toast';
+        el.className = 'hidden fixed top-6 right-6 z-50';
+        el.innerHTML = `
+            <div class="bg-white border border-slate-200 text-slate-800 shadow-lg rounded-none px-4 py-3 flex items-start gap-3 w-72">
+                <div class="mt-0.5" aria-hidden="true">⚡</div>
+                <div>
+                    <p class="text-sm font-semibold" id="hz-status-toast-title">Đã cập nhật</p>
+                    <p class="text-xs text-slate-600" id="hz-status-toast-text"></p>
+                </div>
+            </div>`;
+        document.body.appendChild(el);
+    }
     
     let currentProductId = null;
     let currentBasePrice = null;
@@ -260,6 +302,47 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target === modal) {
             modal.classList.add('hidden');
         }
+    });
+
+    const statusToastEl = document.getElementById('hz-status-toast');
+    function showStatusToast(title, text) {
+        if (!statusToastEl) return;
+        statusToastEl.querySelector('#hz-status-toast-title').textContent = title;
+        statusToastEl.querySelector('#hz-status-toast-text').textContent = text;
+        statusToastEl.classList.remove('hidden');
+        clearTimeout(statusToastEl._timer);
+        statusToastEl._timer = setTimeout(() => statusToastEl.classList.add('hidden'), 1800);
+    }
+
+    // Toggle NEW / HOT
+    document.querySelectorAll('input[data-type]').forEach(cb => {
+        cb.addEventListener('change', function() {
+            const productId = this.getAttribute('data-product-id');
+            const type = this.getAttribute('data-type');
+            const checked = this.checked ? 1 : 0;
+
+            fetch(`/admin/products/${productId}/toggle-flags`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ type, value: checked })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showStatusToast('Đã cập nhật', data.message || 'Cập nhật thành công');
+                } else {
+                    alert(data.message || 'Cập nhật không thành công');
+                    this.checked = !checked;
+                }
+            })
+            .catch(() => {
+                alert('Có lỗi xảy ra');
+                this.checked = !checked;
+            });
+        });
     });
 });
 </script>

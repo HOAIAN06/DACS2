@@ -4,6 +4,13 @@
 
 @section('content')
 <div class="hanzo-container py-8 md:py-12 px-3 md:px-6 lg:px-8">
+    {{-- Breadcrumb --}}
+    <nav class="mb-8 text-sm">
+        <a href="{{ route('home') }}" class="text-slate-600 hover:text-slate-900 transition">Trang chủ</a>
+        <span class="text-slate-400 mx-2">/</span>
+        <span class="text-slate-900 font-medium">{{ $category->name }}</span>
+    </nav>
+
     {{-- Banner khu vực danh mục --}}
     <div class="mb-10">
         @if($bannerUrl)

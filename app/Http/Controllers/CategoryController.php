@@ -13,6 +13,17 @@ class CategoryController extends Controller
      */
     public function show(string $slug)
     {
+        // Redirect old/incorrect slugs to new ones for backward compatibility
+        $slugMapping = [
+            'quan-jeans' => 'quan-jean',
+            'ao-so-mi' => 'ao-somi',
+            'giay-dep' => 'giay-phu-kien',
+        ];
+        
+        if (isset($slugMapping[$slug])) {
+            return redirect()->route('category.show', $slugMapping[$slug]);
+        }
+        
         // 1. Lấy category theo slug
         $category = Category::where('slug', $slug)
             ->where('is_active', 1)

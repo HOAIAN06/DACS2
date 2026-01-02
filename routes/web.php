@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -36,6 +37,11 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('
 // Danh mục / bộ sưu tập
 Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('category.show');
 
+// Trang đặc biệt: Hàng mới & Thu Đông
+Route::get('/new-arrivals', [ProductController::class, 'newArrivals'])->name('products.new-arrivals');
+Route::get('/best-sellers', [ProductController::class, 'bestSellers'])->name('products.best-sellers');
+Route::get('/winter-collection', [ProductController::class, 'winterCollection'])->name('products.winter-collection');
+
 // Tất cả sản phẩm / lọc / sắp xếp
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
@@ -44,17 +50,28 @@ Route::get('/product/{slug}', [ProductController::class, 'show'])
     ->where('slug', '[a-zA-Z0-9\-]+')
     ->name('product.show');
 
+Route::middleware('auth')->group(function () {
+    Route::post('/product/{product}/reviews', [ProductReviewController::class, 'store'])
+        ->name('product.reviews.store');
+    Route::get('/product/{product}/reviews/{review}/edit', [ProductReviewController::class, 'edit'])
+        ->name('product.reviews.edit');
+    Route::put('/product/{product}/reviews/{review}', [ProductReviewController::class, 'update'])
+        ->name('product.reviews.update');
+    Route::delete('/product/{product}/reviews/{review}', [ProductReviewController::class, 'destroy'])
+        ->name('product.reviews.destroy');
+    Route::post('/product/{product}/reviews/{review}/respond', [ProductReviewController::class, 'respond'])
+        ->name('product.reviews.respond');
+});
+
 // Giỏ hàng
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 
-// Thanh toán (yêu cầu đăng nhập)
-Route::middleware('auth')->group(function () {
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-});
+// Thanh toán (không bắt buộc đăng nhập)
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
 Route::get('/collections/{slug}', [CollectionController::class, 'show'])
      ->name('collections.show');
@@ -95,12 +112,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/', [AdminProductController::class, 'index'])->name('index');
         Route::get('/create', [AdminProductController::class, 'create'])->name('create');
         Route::post('/', [AdminProductController::class, 'store'])->name('store');
+        // Specific routes BEFORE generic {id} routes
+        Route::delete('/images/{id}', [AdminProductController::class, 'deleteImage'])->name('delete-image');
+        Route::delete('/variants/{id}', [AdminProductController::class, 'deleteVariant'])->name('delete-variant');
+        Route::post('/{id}/apply-discount', [AdminProductController::class, 'applyDiscount'])->name('apply-discount');
+        Route::post('/{id}/toggle-flags', [AdminProductController::class, 'toggleFlags'])->name('toggle-flags');
         Route::get('/{id}/edit', [AdminProductController::class, 'edit'])->name('edit');
         Route::put('/{id}', [AdminProductController::class, 'update'])->name('update');
         Route::patch('/{id}/toggle', [AdminProductController::class, 'toggle'])->name('toggle');
-        Route::post('/{id}/apply-discount', [AdminProductController::class, 'applyDiscount'])->name('apply-discount');
-        Route::delete('/images/{id}', [AdminProductController::class, 'deleteImage'])->name('delete-image');
-        Route::delete('/variants/{id}', [AdminProductController::class, 'deleteVariant'])->name('delete-variant');
         Route::delete('/{id}', [AdminProductController::class, 'destroy'])->name('destroy');
     });
     

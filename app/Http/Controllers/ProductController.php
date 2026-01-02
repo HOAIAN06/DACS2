@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class ProductController extends Controller
 {
@@ -67,7 +70,38 @@ class ProductController extends Controller
         $product = Product::with(['images', 'category', 'mainImage', 'variants'])
             ->where('slug', $slug)
             ->firstOrFail();
-        return view('product.show', compact('product'));
+
+        $canReview = false;
+
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $canReview = OrderItem::where('product_id', $product->id)
+                ->whereHas('order', function ($q) use ($userId) {
+                    $q->where('user_id', $userId)
+                      ->where('status', '!=', 'canceled');
+                })
+                ->exists();
+        }
+
+        $ratingSummary = $product->approvedReviews()
+            ->selectRaw('COUNT(*) as total, AVG(rating) as avg_rating')
+            ->first();
+
+        $ratingDistribution = $product->approvedReviews()
+            ->selectRaw('rating, COUNT(*) as total')
+            ->groupBy('rating')
+            ->pluck('total', 'rating');
+
+        $reviews = $product->approvedReviews()
+            ->with('user')
+            ->latest()
+            ->take(20)
+            ->get();
+
+        $avgRating = $ratingSummary?->avg_rating ? round($ratingSummary->avg_rating, 1) : null;
+        $totalReviews = $ratingSummary?->total ?? 0;
+
+        return view('product.show', compact('product', 'reviews', 'avgRating', 'totalReviews', 'ratingDistribution', 'canReview'));
     }
 
     /**
@@ -103,6 +137,115 @@ class ProductController extends Controller
                     'stock' => $v->stock ?? 0,
                 ];
             })->toArray(),
+        ]);
+    }
+
+    /**
+     * Trang hiển thị sản phẩm mới (Hàng mới)
+     */
+    public function newArrivals(Request $request)
+    {
+        $query = Product::with(['category','images'])
+            ->where('is_active', 1)
+            ->where(function ($q) {
+                $q->where('is_new', 1)
+                  ->orWhere('created_at', '>=', now()->subDays(30));
+            });
+
+        // Sắp xếp
+        switch ($request->get('sort')) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            default:
+                $query->orderByDesc('created_at'); // mới nhất
+        }
+
+        $products = $query->paginate(16)->withQueryString();
+        $categories = Category::orderBy('name')->get();
+
+        return view('shop.new-arrivals', [
+            'products' => $products,
+            'categories' => $categories,
+            'pageTitle' => 'Hàng Mới Về',
+            'breadcrumb' => 'Hàng Mới'
+        ]);
+    }
+
+    /**
+     * Trang hiển thị sản phẩm bán chạy
+     */
+    public function bestSellers(Request $request)
+    {
+        $hasTotalSold = Schema::hasColumn('products', 'total_sold');
+
+        $query = Product::with(['category','images'])
+            ->where('is_active', 1)
+            ->where(function ($q) use ($hasTotalSold) {
+                if ($hasTotalSold) {
+                    $q->where('total_sold', '>', 10);
+                }
+                $q->orWhere('is_best_seller', 1);
+            });
+
+        switch ($request->get('sort')) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            default:
+                if ($hasTotalSold) {
+                    $query->orderByDesc('total_sold');
+                }
+                $query->orderByDesc('created_at');
+        }
+
+        $products = $query->paginate(16)->withQueryString();
+        $categories = Category::orderBy('name')->get();
+
+        return view('shop.best-sellers', [
+            'products' => $products,
+            'categories' => $categories,
+            'pageTitle' => 'Sản Phẩm Bán Chạy',
+            'breadcrumb' => 'Bán chạy'
+        ]);
+    }
+
+    /**
+     * Trang hiển thị sản phẩm Thu Đông
+     */
+    public function winterCollection(Request $request)
+    {
+        // Lọc theo collection "thu-dong" trong database
+        $query = Product::with(['category','images'])
+            ->where('is_active', 1)
+            ->where('collection', 'thu-dong');
+
+        // Sắp xếp
+        switch ($request->get('sort')) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            default:
+                $query->orderByDesc('created_at'); // mới nhất
+        }
+
+        $products = $query->paginate(16)->withQueryString();
+        $categories = Category::orderBy('name')->get();
+
+        return view('shop.winter-collection', [
+            'products' => $products,
+            'categories' => $categories,
+            'pageTitle' => 'Bộ Sưu Tập Thu Đông',
+            'breadcrumb' => 'Thu Đông'
         ]);
     }
 }

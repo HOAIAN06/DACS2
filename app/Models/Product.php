@@ -15,6 +15,7 @@ class Product extends Model
         'price_original',
         'description',
         'stock',
+        'total_sold',
         'thumbnail_url',
         'is_active',
         'is_new',
@@ -30,6 +31,7 @@ class Product extends Model
         'is_new' => 'boolean',
         'is_best_seller' => 'boolean',
         'is_outlet' => 'boolean',
+        'total_sold' => 'integer',
     ];
 
     public function category()
@@ -52,6 +54,16 @@ class Product extends Model
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+
+    public function approvedReviews()
+    {
+        return $this->reviews()->where('status', 'approved');
     }
 
     private function resolveImageUrl(?string $path): ?string

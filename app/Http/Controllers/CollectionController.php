@@ -9,17 +9,26 @@ class CollectionController extends Controller
 {
     public function show($slug)
     {
-        // Lấy các sản phẩm thuộc bộ sưu tập này
-        $products = Product::where('collection', $slug)->paginate(12);
-
-        // Nếu muốn, bạn có thể map tên hiển thị đẹp hơn ở đây
-        $collectionNames = [
+        // Map slug to actual collection names in database
+        $slugToCollectionMap = [
             'retro-sports'   => 'Retro Sports',
-            'snoopy'         => 'Snoopy Collection',
-            'mickey-friends' => 'Mickey & Friends',
+            'snoopy'         => 'Snoopy',
+            'mickey-friends' => 'Mickey&Friends',
         ];
 
-        $collectionName = $collectionNames[$slug] ?? ucfirst(str_replace('-', ' ', $slug));
+        // Get the actual collection name from database
+        $collectionName = $slugToCollectionMap[$slug] ?? null;
+        
+        if (!$collectionName) {
+            abort(404, 'Collection not found');
+        }
+
+        // Lấy các sản phẩm thuộc bộ sưu tập này
+        $products = Product::where('collection', $collectionName)
+            ->where('is_active', 1)
+            ->orderByDesc('created_at')
+            ->paginate(16)
+            ->withQueryString();
 
         return view('shop.collection', [
             'slug'           => $slug,

@@ -18,15 +18,11 @@ class AdminDashboardManager {
      * Setup event listeners for admin actions
      */
     setupEventListeners() {
-        // Confirm before delete
-        const deleteButtons = document.querySelectorAll('[data-confirm-delete]');
-        console.log('Found delete buttons:', deleteButtons.length);
-        
-        deleteButtons.forEach(el => {
-            el.addEventListener('click', (e) => {
-                console.log('Delete button clicked');
+        // Event delegation for delete buttons (works for dynamically added elements)
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('[data-confirm-delete]')) {
                 this.handleDeleteConfirm(e);
-            });
+            }
         });
 
         // Status update buttons
@@ -54,7 +50,6 @@ class AdminDashboardManager {
      * Handle delete confirmation
      */
     handleDeleteConfirm(e) {
-        console.log('handleDeleteConfirm called');
         e.preventDefault();
         e.stopPropagation();
         
@@ -62,19 +57,23 @@ class AdminDashboardManager {
         const message = button.dataset.confirmDelete || 'Bạn chắc chắn muốn xóa mục này?';
         const form = button.closest('form');
         
-        console.log('Message:', message);
-        console.log('Form:', form);
+        if (!form) {
+            console.error('Form not found');
+            return;
+        }
+        
+        console.log('Delete form found:', form);
+        console.log('Form action:', form.action);
+        console.log('Form method:', form.method);
+        console.log('Form inputs:', form.querySelectorAll('input').length);
         
         this.showConfirmDialog(message, () => {
             console.log('Confirmed - submitting form');
-            if (form) {
-                // Create a hidden input to bypass the event listener
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = '_confirmed';
-                input.value = '1';
-                form.appendChild(input);
+            try {
                 form.submit();
+                console.log('Form submitted successfully');
+            } catch (error) {
+                console.error('Error submitting form:', error);
             }
         });
     }

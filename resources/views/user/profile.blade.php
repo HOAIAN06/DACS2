@@ -136,7 +136,7 @@
                                     </label>
                                     <input type="password" id="password" name="password" required
                                         class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10 transition"
-                                        placeholder="Tối thiểu 6 ký tự">
+                                        placeholder="Nhập mật khẩu mới">
                                     @error('password')
                                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                                     @enderror

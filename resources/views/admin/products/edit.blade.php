@@ -54,7 +54,7 @@
                 <div class="mt-3">
                     <p class="text-sm text-slate-600 mb-2">Ảnh chính hiện tại:</p>
                     <div class="relative inline-block">
-                        <img src="{{ asset('storage/' . $product->mainImage->image_url) }}" alt="Main" class="h-48 rounded-lg border border-slate-200 object-cover">
+                        <img src="{{ $product->mainImage->full_url ?? asset('storage/' . $product->mainImage->image_url) }}" alt="Main" class="h-48 rounded-lg border border-slate-200 object-cover" onerror="this.style.display='none';">
                         <button type="button" onclick="deleteImage({{ $product->mainImage->id }}, this)" class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-2 hover:bg-red-700">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -80,7 +80,7 @@
                     <div class="grid grid-cols-4 gap-3">
                         @foreach($product->images()->where('is_main', 0)->get() as $image)
                             <div class="relative">
-                                <img src="{{ asset('storage/' . $image->image_url) }}" alt="Additional" class="h-32 rounded-lg border border-slate-200 object-cover w-full">
+                                <img src="{{ $image->full_url ?? asset('storage/' . $image->image_url) }}" alt="Additional" class="h-32 rounded-lg border border-slate-200 object-cover w-full" onerror="this.style.display='none';">
                                 <button type="button" onclick="deleteImage({{ $image->id }}, this)" class="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -192,12 +192,14 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        button.closest('div').remove();
+                        button.closest('div').parentElement.remove();
+                        alert('Ảnh đã xóa thành công');
                     } else {
-                        alert('Không thể xóa ảnh');
+                        alert('Không thể xóa ảnh: ' + (data.message || 'Lỗi không xác định'));
                     }
                 })
                 .catch(error => {
+                    console.error('Fetch error:', error);
                     alert('Lỗi: ' + error);
                 });
             }

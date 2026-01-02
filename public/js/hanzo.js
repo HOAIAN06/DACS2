@@ -602,78 +602,47 @@ document.addEventListener("DOMContentLoaded", () => {
     // ============================================
     // CATEGORY SHOWCASE - Hỗ trợ nhiều sections (shirts & pants)
     // Mỗi section có data-category-group để phân biệt
+    // Sử dụng data-url-* attributes từ HTML thay vì hardcoded config
     // ============================================
     (function setupCategoryShowcase() {
-        // Config cho từng category group
-        const configs = {
-            shirts: {
-                thun: {
-                    img: '/images/banner/banner_aothun.jpg',
-                    title: 'ÁO THUN',
-                    link: '/products?category=ao-thun'
-                },
-                somi: {
-                    img: '/images/banner/banner_aosomi.jpg',
-                    title: 'ÁO SƠMI',
-                    link: '/products?category=ao-somi'
-                },
-                polo: {
-                    img: '/images/banner/banner_aopolo.jpg',
-                    title: 'ÁO POLO',
-                    link: '/products?category=ao-polo'
-                }
-            },
-            pants: {
-                short: {
-                    img: '/images/banner/banner_quanshort.jpg',
-                    title: 'QUẦN SHORT',
-                    link: '/products?category=quan-short'
-                },
-                jean: {
-                    img: '/images/banner/banner_quanjean.jpg',
-                    title: 'QUẦN JEAN',
-                    link: '/products?category=quan-jean'
-                },
-                tay: {
-                    img: '/images/banner/banner_quantay.jpg',
-                    title: 'QUẦN TÂY',
-                    link: '/products?category=quan-tay'
-                }
-            }
+        // Banner images từ window.HANZO.categoryBanners (được inject từ Blade)
+        const banners = window.HANZO?.categoryBanners || {};
+        
+        // Titles cho từng loại
+        const titles = {
+            thun: 'ÁO THUN',
+            somi: 'ÁO SƠMI', 
+            polo: 'ÁO POLO',
+            short: 'QUẦN SHORT',
+            jean: 'QUẦN JEAN',
+            tay: 'QUẦN TÂY'
         };
 
         // Setup cho từng section
         document.querySelectorAll('[data-category-group]').forEach(section => {
             const group = section.dataset.categoryGroup;
-            const config = configs[group];
-            if (!config) return;
-
+            
             const tabs = section.querySelectorAll('.cat-tab[data-group="' + group + '"]');
-            // QUAN TRỌNG: Chỉ lấy panels TRONG section này, không lấy panels của section khác
             const panels = section.querySelectorAll('.tab-panel');
             const leftHero = section.querySelector('.left-hero-' + group);
+            
+            // Tìm các element cần update
+            const heroImage = section.querySelector('#hero-image-' + group);
+            const heroTitle = section.querySelector('#hero-title-' + group);
+            const heroLink = section.querySelector('#hero-link-' + group);
+            const viewAllLink = section.querySelector('#view-all-' + group);
             
             if (!tabs.length || !leftHero) {
                 console.warn('[HANZO] Setup failed for group:', group, 'tabs:', tabs.length, 'leftHero:', !!leftHero);
                 return;
             }
 
-            const leftHeroImg = leftHero.querySelector('img');
-            const leftHeroTitle = leftHero.querySelector('h4');
-            const leftHeroLink = leftHero.querySelector('a');
-
             console.log('[HANZO] Setup group:', group, 'tabs:', tabs.length, 'panels:', panels.length);
 
             function setActiveTab(key) {
-                const cfg = config[key];
-                if (!cfg) {
-                    console.warn('[HANZO] Config not found for key:', key, 'in group:', group);
-                    return;
-                }
+                console.log('[HANZO] setActiveTab called:', group, key);
 
-                console.log('[HANZO] setActiveTab called:', group, key, 'panels:', panels.length);
-
-                // Update tabs - remove all active states first
+                // Update tabs styling
                 tabs.forEach(t => {
                     const isActive = t.dataset.tab === key;
                     if (isActive) {
@@ -689,7 +658,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 let panelFound = false;
                 panels.forEach(p => {
                     const panelKey = p.dataset.panel;
-                    console.log('[HANZO] Checking panel:', panelKey, 'against key:', key, 'match:', panelKey === key);
                     if (panelKey === key) {
                         p.classList.remove('hidden');
                         panelFound = true;
@@ -702,13 +670,37 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.error('[HANZO] Panel not found for key:', key, 'in group:', group);
                 }
 
-                // Update left hero
-                if (leftHeroImg && cfg.img) {
-                    leftHeroImg.src = cfg.img;
-                    leftHeroImg.alt = cfg.title;
+                // Update hero image từ window.HANZO.categoryBanners
+                if (heroImage && banners[key]) {
+                    heroImage.src = banners[key];
+                    heroImage.alt = titles[key] || key;
                 }
-                if (leftHeroTitle) leftHeroTitle.textContent = cfg.title;
-                if (leftHeroLink) leftHeroLink.href = cfg.link;
+                
+                // Update hero title
+                if (heroTitle && titles[key]) {
+                    heroTitle.textContent = titles[key];
+                }
+                
+                // Update hero link từ data-url-{key} attribute
+                if (heroLink) {
+                    // Convert key to camelCase for dataset access: 'short' -> 'urlShort', 'jean' -> 'urlJean'
+                    const datasetKey = 'url' + key.charAt(0).toUpperCase() + key.slice(1);
+                    const url = heroLink.dataset[datasetKey];
+                    if (url) {
+                        heroLink.href = url;
+                        console.log('[HANZO] Updated hero link to:', url);
+                    }
+                }
+                
+                // Update "Xem tất cả" link từ data-url-{key} attribute
+                if (viewAllLink) {
+                    const datasetKey = 'url' + key.charAt(0).toUpperCase() + key.slice(1);
+                    const url = viewAllLink.dataset[datasetKey];
+                    if (url) {
+                        viewAllLink.href = url;
+                        console.log('[HANZO] Updated view-all link to:', url);
+                    }
+                }
 
                 console.log('[HANZO] Tab switched:', group, key, 'panel found:', panelFound);
             }
@@ -1037,7 +1029,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ============================================
-    // 5. HERO SLIDER: mũi tên + dots + auto-play
+    // 5. HERO SLIDER: mũi tên + dots + auto-play (IMPROVED)
     //    Wrapper: .js-hero-slider
     //    Slide:   .js-hero-slide
     // ============================================
@@ -1049,11 +1041,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (slides.length === 0) return;
 
         let current = 0;
+        let isTransitioning = false;
         const prevBtn = slider.querySelector("[data-hero-prev]");
         const nextBtn = slider.querySelector("[data-hero-next]");
         const dotsWrap = slider.querySelector("[data-hero-dots]");
         let autoTimer = null;
-        const AUTO_DELAY = 5000;
+        const AUTO_DELAY = 6000; // 6 giây mỗi slide
 
         // Tạo dots theo số slide
         let dots = [];
@@ -1063,14 +1056,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 dot.type = "button";
                 dot.className = "hero-dot" + (idx === 0 ? " is-active" : "");
                 dot.dataset.index = String(idx);
+                dot.setAttribute('aria-label', `Slide ${idx + 1}`);
                 dotsWrap.appendChild(dot);
                 return dot;
             });
         }
 
         function goTo(index) {
+            if (isTransitioning) return;
             if (index < 0) index = slides.length - 1;
             if (index >= slides.length) index = 0;
+            if (index === current) return;
+
+            isTransitioning = true;
             current = index;
 
             slides.forEach((s, i) => {
@@ -1079,6 +1077,11 @@ document.addEventListener("DOMContentLoaded", () => {
             dots.forEach((d, i) => {
                 d.classList.toggle("is-active", i === current);
             });
+
+            // Prevent spam clicking
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 1000);
         }
 
         function next() { goTo(current + 1); }
@@ -1117,9 +1120,50 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
+        // Pause on hover
+        slider.addEventListener('mouseenter', stopAuto);
+        slider.addEventListener('mouseleave', startAuto);
+
+        // Touch/Swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                next();
+                startAuto();
+            }
+            if (touchEndX > touchStartX + 50) {
+                prev();
+                startAuto();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prev();
+                startAuto();
+            } else if (e.key === 'ArrowRight') {
+                next();
+                startAuto();
+            }
+        });
+
         // Bắt đầu
         goTo(0);
         startAuto();
+
+        console.log('[HANZO] Hero slider initialized with', slides.length, 'slides');
     })();
 
     // ============================================

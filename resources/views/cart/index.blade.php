@@ -16,7 +16,7 @@
             </p>
         </div>
 
-        <a href="{{ route('products.index') }}" class="hz-chip-link">
+        <a href="{{ route('home') }}" class="hz-chip-link">
             ← Tiếp tục mua hàng
         </a>
     </div>

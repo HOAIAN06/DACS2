@@ -4,6 +4,22 @@
 
 @section('content')
 
+
+    @php
+    // Slug đúng theo menu của bạn
+    $shirtCats = [
+        'thun' => 'ao-thun',
+        'polo' => 'ao-polo',
+        'somi' => 'ao-somi',
+    ];
+
+    $pantCats = [
+        'short' => 'quan-short',
+        'jean'  => 'quan-jean',
+        'tay'   => 'quan-tay',
+    ];
+    @endphp
+
     {{-- Inject asset paths for JS category showcase --}}
     <script>
         window.HANZO = window.HANZO || {};
@@ -122,7 +138,7 @@
                         <h3 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-2">Sản phẩm nổi bật</h3>
                         <div class="h-1.5 w-16 bg-slate-900 rounded-full"></div>
                     </div>
-                    <a href="{{ route('products.index', ['collection' => 'retro-sports']) }}" 
+                    <a href="{{ route('collections.show', 'retro-sports') }}" 
                        class="px-6 py-3 bg-slate-900 text-white rounded-full text-xs font-bold 
                               hover:bg-slate-700 hover:shadow-lg transition duration-300 
                               uppercase tracking-widest flex-shrink-0 whitespace-nowrap">
@@ -191,7 +207,7 @@
                         <h3 class="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">Sản phẩm nổi bật</h3>
                         <div class="h-1.5 w-16 bg-white rounded-full"></div>
                     </div>
-                    <a href="{{ route('products.index', ['collection' => 'jeans']) }}" 
+                    <a href="{{ route('category.show', 'quan-jean') }}" 
                        class="px-6 py-3 bg-white text-blue-600 rounded-full text-xs font-bold 
                               hover:bg-slate-100 hover:shadow-lg transition duration-300 
                               uppercase tracking-widest flex-shrink-0 whitespace-nowrap">
@@ -243,8 +259,8 @@
 
 
 
-{{-- HIGHLIGHT SECTION: Hàng mới / Thu Đông (style ICONDENIM) --}}
-@if(($newProducts ?? collect())->count() || ($winterProducts ?? collect())->count())
+{{-- HIGHLIGHT SECTION: Hàng mới / Bán chạy / Thu Đông (style ICONDENIM) --}}
+@if(($newProducts ?? collect())->count() || ($winterProducts ?? collect())->count() || ($bestSellerProducts ?? collect())->count())
 <section class="my-16 hanzo-container px-3" data-highlight-group>
 
     {{-- Tabs --}}
@@ -253,9 +269,9 @@
                 data-highlight-tab="new">
             Hàng mới
         </button>
-        <button class="highlight-tab px-0 py-3 text-[15px] font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all opacity-50 cursor-not-allowed"
-                data-highlight-tab="best" disabled>
-            Hàng bán chạy (sắp có)
+        <button class="highlight-tab px-0 py-3 text-[15px] font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all"
+                data-highlight-tab="best">
+            Hàng bán chạy
         </button>
         <button class="highlight-tab px-0 py-3 text-[15px] font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all"
                 data-highlight-tab="winter">
@@ -268,7 +284,7 @@
         {{-- LEFT: banner + 1 sản phẩm featured (thay đổi theo tab) --}}
         <div class="hidden lg:flex lg:flex-col lg:gap-5">
             {{-- Banner: Hàng mới --}}
-            <a href="{{ route('products.index', ['is_new' => 1]) }}"
+            <a href="{{ route('products.new-arrivals') }}"
                class="highlight-banner group block rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all bg-white"
                data-highlight-banner="new">
                 <div class="relative w-full aspect-[3/5] bg-[#f3f3f3] overflow-hidden">
@@ -293,8 +309,34 @@
                 </div>
             @endif
 
+            {{-- Banner: Bán chạy --}}
+            <a href="{{ route('products.best-sellers') }}"
+               class="highlight-banner hidden group block rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all bg-white"
+               data-highlight-banner="best">
+                <div class="relative w-full aspect-[3/5] bg-[#f3f3f3] overflow-hidden">
+                    <img src="{{ asset('images/banner/highlight-new.jpg') }}"
+                         alt="Bán chạy"
+                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent"></div>
+                    <div class="absolute left-5 bottom-6 text-white space-y-2">
+                        <h3 class="text-3xl font-bold leading-tight">Bán chạy</h3>
+                        <span class="inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-full font-semibold text-sm group-hover:bg-black group-hover:text-white transition">
+                            Xem ngay <span class="text-lg">›</span>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            {{-- Featured product: Bán chạy --}}
+            @if(($bestSellerProducts ?? collect())->isNotEmpty())
+                <div class="highlight-banner hidden rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all group bg-white"
+                     data-highlight-banner="best">
+                    <x-product-card :product="$bestSellerProducts->first()" fit="cover" />
+                </div>
+            @endif
+
             {{-- Banner: Thu Đông --}}
-            <a href="{{ route('products.index', ['collection' => 'winter']) }}"
+            <a href="{{ route('products.winter-collection') }}"
                class="highlight-banner hidden group block rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all bg-white"
                data-highlight-banner="winter">
                 <div class="relative w-full aspect-[3/5] bg-[#f3f3f3] overflow-hidden">
@@ -333,6 +375,22 @@
                 @endforeach
             </div>
 
+            {{-- Panel: Bán chạy --}}
+            <div class="highlight-panel hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 xl:gap-5 items-stretch"
+                 data-highlight-panel="best">
+                @foreach(($bestSellerProducts ?? collect())->take(8) as $product)
+                    <div class="rounded-lg overflow-hidden border border-slate-200 hover:border-slate-300 shadow-sm transition-all group bg-white">
+                        <x-product-card :product="$product" fit="cover" />
+                    </div>
+                @endforeach
+
+                @if(($bestSellerProducts ?? collect())->isEmpty())
+                    <div class="col-span-2 md:col-span-3 lg:col-span-4 p-12 border border-dashed border-slate-300 rounded-lg bg-slate-50 text-slate-500 text-sm text-center">
+                        Chưa có dữ liệu bán chạy.
+                    </div>
+                @endif
+            </div>
+
             {{-- Panel: Thu Đông --}}
             <div class="highlight-panel hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 xl:gap-5 items-stretch"
                  data-highlight-panel="winter">
@@ -344,23 +402,23 @@
                 @endforeach
             </div>
 
-            {{-- Panel: Bán chạy (placeholder) --}}
-            <div class="highlight-panel hidden" data-highlight-panel="best">
-                <div class="p-12 border border-dashed border-slate-300 rounded-lg bg-slate-50 text-slate-500 text-sm text-center">
-                    Bán chạy sẽ cập nhật tự động sau.
-                </div>
-            </div>
-
             <div class="mt-8 flex justify-center">
                 {{-- CTA: Hàng mới --}}
-                <a href="{{ route('products.index', ['is_new' => 1]) }}"
+                <a href="{{ route('products.new-arrivals') }}"
                    data-highlight-cta="new"
                    class="inline-block px-6 py-2 border-2 border-slate-900 rounded-md font-medium transition-all duration-300 hover:bg-slate-900 hover:text-white hover:scale-105">
                     Xem tất cả
                 </a>
 
+                {{-- CTA: Bán chạy --}}
+                <a href="{{ route('products.best-sellers') }}"
+                   data-highlight-cta="best"
+                   class="hidden inline-block px-6 py-2 border-2 border-slate-900 rounded-md font-medium transition-all duration-300 hover:bg-slate-900 hover:text-white hover:scale-105">
+                    Xem tất cả
+                </a>
+
                 {{-- CTA: Thu Đông --}}
-                <a href="{{ route('products.index', ['collection' => 'winter']) }}"
+                <a href="{{ route('products.winter-collection') }}"
                    data-highlight-cta="winter"
                    class="hidden inline-block px-6 py-2 border-2 border-slate-900 rounded-md font-medium transition-all duration-300 hover:bg-slate-900 hover:text-white hover:scale-105">
                     Xem tất cả
@@ -382,114 +440,115 @@
             CATEGORY SHOWCASE (Áo Thun / Áo Sơmi / Áo Polo)
             Left: tall banner; Right: carousel of 5 products
         ===================== --}}
-        <section class="category-showcase my-12" data-category-group="shirts">
-            <div class="hanzo-container px-3">
-                {{-- Header với tabs style ICONDENIM --}}
-                <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Áo Nam</h2>
-                    <div class="flex gap-8" id="category-tabs-shirts">
-                        <button class="cat-tab text-[15px] font-semibold text-slate-900 pb-2 border-b-2 border-slate-900 hover:text-slate-900 transition-colors" 
-                                data-tab="thun" data-group="shirts">Áo Thun</button>
-                        <button class="cat-tab text-[15px] font-semibold text-slate-500 pb-2 border-b-2 border-transparent hover:text-slate-900 transition-colors" 
-                                data-tab="somi" data-group="shirts">Áo Sơmi</button>
-                        <button class="cat-tab text-[15px] font-semibold text-slate-500 pb-2 border-b-2 border-transparent hover:text-slate-900 transition-colors" 
-                                data-tab="polo" data-group="shirts">Áo Polo</button>
-                    </div>
-                </div>
+<section class="category-showcase my-12" data-category-group="shirts">
+    <div class="hanzo-container px-3">
 
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-6 items-start">
-                    {{-- Left hero banner (dynamic) --}}
-                    <div class="hidden md:block md:col-span-1">
-                        <div class="left-hero-shirts rounded-2xl overflow-hidden relative shadow-lg group hover:shadow-2xl transition-shadow duration-300">
-                            <img src="{{ asset('images/banner/banner_aothun.jpg') }}" 
-                                 alt="Áo Thun" 
-                                 class="w-full h-[520px] object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                            <div class="absolute left-6 bottom-8 text-white z-10">
-                                <h4 class="text-3xl font-bold mb-3 tracking-tight">ÁO THUN</h4>
-                                <a href="{{ route('products.index', ['category' => 'ao-thun']) }}" 
-                                   class="inline-block bg-white text-black px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-black hover:text-white transition-colors duration-300">
-                                    XEM NGAY
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Áo Nam</h2>
+            <div class="flex gap-8" id="category-tabs-shirts">
+                <button class="cat-tab text-[15px] font-semibold text-slate-900 pb-2 border-b-2 border-slate-900 hover:text-slate-900 transition-colors"
+                        data-tab="thun" data-group="shirts">Áo Thun</button>
+                <button class="cat-tab text-[15px] font-semibold text-slate-500 pb-2 border-b-2 border-transparent hover:text-slate-900 transition-colors"
+                        data-tab="somi" data-group="shirts">Áo Sơ Mi</button>
+                <button class="cat-tab text-[15px] font-semibold text-slate-500 pb-2 border-b-2 border-transparent hover:text-slate-900 transition-colors"
+                        data-tab="polo" data-group="shirts">Áo Polo</button>
+            </div>
+        </div>
 
-                    {{-- Right carousel panels --}}
-                    <div class="col-span-1 md:col-span-4">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 items-start">
+            {{-- Left hero banner --}}
+            <div class="hidden md:block md:col-span-1">
+                <div class="left-hero-shirts rounded-2xl overflow-hidden relative shadow-lg group hover:shadow-2xl transition-shadow duration-300">
+                    <img id="hero-image-shirts"
+                         src="{{ asset('images/banner/banner_aothun.jpg') }}"
+                         alt="Áo Thun"
+                         class="w-full h-[520px] object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
-                        {{-- Thun panel --}}
-                        <div class="tab-panel" data-panel="thun">
-                            <div class="relative">
-                                <div class="swiper thunSwiper">
-                                    <div class="swiper-wrapper">
-                                        @foreach($teeProducts as $product)
-                                            <div class="swiper-slide"><x-product-card :product="$product" size="mini" /></div>
-                                        @endforeach
-                                    </div>
-                                </div>
+                    <div class="absolute left-6 bottom-8 text-white z-10">
+                        <h4 id="hero-title-shirts" class="text-3xl font-bold mb-3 tracking-tight">ÁO THUN</h4>
 
-                                <button class="thun-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                                    <span class="text-2xl">‹</span>
-                                </button>
-                                <button class="thun-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                                    <span class="text-2xl">›</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        {{-- Sơmi panel --}}
-                        <div class="tab-panel hidden" data-panel="somi">
-                            <div class="relative">
-                                <div class="swiper somiSwiper">
-                                    <div class="swiper-wrapper">
-                                        @foreach($somiProducts as $product)
-                                            <div class="swiper-slide"><x-product-card :product="$product" size="mini" /></div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <button class="somi-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                                    <span class="text-2xl">‹</span>
-                                </button>
-                                <button class="somi-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                                    <span class="text-2xl">›</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        {{-- Polo panel --}}
-                        <div class="tab-panel hidden" data-panel="polo">
-                            <div class="relative">
-                                <div class="swiper poloSwiper">
-                                    <div class="swiper-wrapper">
-                                        @foreach($poloProducts as $product)
-                                            <div class="swiper-slide"><x-product-card :product="$product" size="mini" /></div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <button class="polo-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                                    <span class="text-2xl">‹</span>
-                                </button>
-                                <button class="polo-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                                    <span class="text-2xl">›</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="text-center mt-6">
-                            <a href="{{ route('products.index') }}" class="inline-block px-6 py-2 border-2 border-slate-900 rounded-md font-medium transition-all duration-300 hover:bg-slate-900 hover:text-white hover:scale-105">Xem tất cả</a>
-                        </div>
+                        {{-- XEM NGAY (đổi theo tab) --}}
+                        <a id="hero-link-shirts"
+                           href="{{ route('category.show', $shirtCats['thun']) }}"
+                           data-url-thun="{{ route('category.show', $shirtCats['thun']) }}"
+                           data-url-somi="{{ route('category.show', $shirtCats['somi']) }}"
+                           data-url-polo="{{ route('category.show', $shirtCats['polo']) }}"
+                           class="inline-block bg-white text-black px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-black hover:text-white transition-colors duration-300">
+                            XEM NGAY
+                        </a>
                     </div>
                 </div>
             </div>
-        </section>
+
+            {{-- Right carousel panels --}}
+            <div class="col-span-1 md:col-span-4">
+
+                <div class="tab-panel" data-panel="thun">
+                    <div class="relative">
+                        <div class="swiper thunSwiper">
+                            <div class="swiper-wrapper">
+                                @foreach($teeProducts as $product)
+                                    <div class="swiper-slide"><x-product-card :product="$product" size="mini" /></div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <button class="thun-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">‹</span></button>
+                        <button class="thun-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">›</span></button>
+                    </div>
+                </div>
+
+                <div class="tab-panel hidden" data-panel="somi">
+                    <div class="relative">
+                        <div class="swiper somiSwiper">
+                            <div class="swiper-wrapper">
+                                @foreach($somiProducts as $product)
+                                    <div class="swiper-slide"><x-product-card :product="$product" size="mini" /></div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <button class="somi-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">‹</span></button>
+                        <button class="somi-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">›</span></button>
+                    </div>
+                </div>
+
+                <div class="tab-panel hidden" data-panel="polo">
+                    <div class="relative">
+                        <div class="swiper poloSwiper">
+                            <div class="swiper-wrapper">
+                                @foreach($poloProducts as $product)
+                                    <div class="swiper-slide"><x-product-card :product="$product" size="mini" /></div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <button class="polo-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">‹</span></button>
+                        <button class="polo-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">›</span></button>
+                    </div>
+                </div>
+
+                {{-- Xem tất cả (đổi theo tab) --}}
+                <div class="text-center mt-6">
+                    <a id="view-all-shirts"
+                       href="{{ route('category.show', $shirtCats['thun']) }}"
+                       data-url-thun="{{ route('category.show', $shirtCats['thun']) }}"
+                       data-url-somi="{{ route('category.show', $shirtCats['somi']) }}"
+                       data-url-polo="{{ route('category.show', $shirtCats['polo']) }}"
+                       class="inline-block px-6 py-2 border-2 border-slate-900 rounded-md font-medium transition-all duration-300 hover:bg-slate-900 hover:text-white hover:scale-105">
+                        Xem tất cả
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
         {{-- =====================
     CATEGORY QUẦN (Quần Short / Quần Jean / Quần Tây)
 ===================== --}}
 <section class="category-showcase my-12" data-category-group="pants">
     <div class="hanzo-container px-3">
-        {{-- Header với tabs style ICONDENIM --}}
+
         <div class="flex items-center justify-between mb-8">
             <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Quần Nam</h2>
             <div class="flex gap-8" id="category-tabs-pants">
@@ -503,16 +562,24 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-5 gap-6 items-start">
-            {{-- Left hero banner (dynamic) --}}
+            {{-- Left hero banner --}}
             <div class="hidden md:block md:col-span-1">
                 <div class="left-hero-pants rounded-2xl overflow-hidden relative shadow-lg group hover:shadow-2xl transition-shadow duration-300">
-                    <img src="{{ asset('images/banner/banner_quanshort.jpg') }}"
-                         alt="Quần nam"
+                    <img id="hero-image-pants"
+                         src="{{ asset('images/banner/banner_quanshort.jpg') }}"
+                         alt="Quần Short"
                          class="w-full h-[520px] object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+
                     <div class="absolute left-6 bottom-8 text-white z-10">
-                        <h4 class="text-3xl font-bold mb-3 tracking-tight">QUẦN SHORT</h4>
-                        <a href="{{ route('products.index', ['category' => 'quan-short']) }}"
+                        <h4 id="hero-title-pants" class="text-3xl font-bold mb-3 tracking-tight">QUẦN SHORT</h4>
+
+                        {{-- XEM NGAY (đổi theo tab) --}}
+                        <a id="hero-link-pants"
+                           href="{{ route('category.show', $pantCats['short']) }}"
+                           data-url-short="{{ route('category.show', $pantCats['short']) }}"
+                           data-url-jean="{{ route('category.show', $pantCats['jean']) }}"
+                           data-url-tay="{{ route('category.show', $pantCats['tay']) }}"
                            class="inline-block bg-white text-black px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-black hover:text-white transition-colors duration-300">
                             XEM NGAY
                         </a>
@@ -523,77 +590,56 @@
             {{-- Right carousel panels --}}
             <div class="col-span-1 md:col-span-4">
 
-                {{-- SHORT panel --}}
                 <div class="tab-panel" data-panel="short">
                     <div class="relative">
                         <div class="swiper shortSwiper">
                             <div class="swiper-wrapper">
                                 @foreach($shortProducts as $product)
-                                    <div class="swiper-slide">
-                                        <x-product-card :product="$product" size="mini" />
-                                    </div>
+                                    <div class="swiper-slide"><x-product-card :product="$product" size="mini" /></div>
                                 @endforeach
                             </div>
                         </div>
-
-                        <button class="short-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                            <span class="text-2xl">‹</span>
-                        </button>
-                        <button class="short-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                            <span class="text-2xl">›</span>
-                        </button>
+                        <button class="short-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">‹</span></button>
+                        <button class="short-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">›</span></button>
                     </div>
                 </div>
 
-                {{-- JEAN panel --}}
                 <div class="tab-panel hidden" data-panel="jean">
                     <div class="relative">
                         <div class="swiper jeanSwiper">
                             <div class="swiper-wrapper">
                                 @foreach($jeansProducts as $product)
-                                    <div class="swiper-slide">
-                                        <x-product-card :product="$product" size="mini" />
-                                    </div>
+                                    <div class="swiper-slide"><x-product-card :product="$product" size="mini" /></div>
                                 @endforeach
                             </div>
                         </div>
-
-                        <button class="jean-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                            <span class="text-2xl">‹</span>
-                        </button>
-                        <button class="jean-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                            <span class="text-2xl">›</span>
-                        </button>
+                        <button class="jean-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">‹</span></button>
+                        <button class="jean-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">›</span></button>
                     </div>
                 </div>
 
-                {{-- TÂY panel --}}
                 <div class="tab-panel hidden" data-panel="tay">
                     <div class="relative">
                         <div class="swiper taySwiper">
                             <div class="swiper-wrapper">
                                 @foreach($tayProducts as $product)
-                                    <div class="swiper-slide">
-                                        <x-product-card :product="$product" size="mini" />
-                                    </div>
+                                    <div class="swiper-slide"><x-product-card :product="$product" size="mini" /></div>
                                 @endforeach
                             </div>
                         </div>
-
-                        <button class="tay-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                            <span class="text-2xl">‹</span>
-                        </button>
-                        <button class="tay-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex">
-                            <span class="text-2xl">›</span>
-                        </button>
+                        <button class="tay-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">‹</span></button>
+                        <button class="tay-next absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex"><span class="text-2xl">›</span></button>
                     </div>
                 </div>
 
-                {{-- Xem tất cả --}}
+                {{-- Xem tất cả (đổi theo tab) --}}
                 <div class="text-center mt-6">
-                    <a href="{{ route('products.index', ['category_group' => 'pants']) }}"
-                       class="inline-block px-6 py-2 border-2 border-slate-900 rounded-md font-medium
-                              transition-all duration-300 hover:bg-slate-900 hover:text-white hover:scale-105">
+                    <a id="view-all-pants"
+                       href="{{ route('category.show', $pantCats['short']) }}"
+                       data-url-short="{{ route('category.show', $pantCats['short']) }}"
+                       data-url-jean="{{ route('category.show', $pantCats['jean']) }}"
+                       data-url-tay="{{ route('category.show', $pantCats['tay']) }}"
+                       class="inline-block px-6 py-2 border-2 border-slate-900 rounded-md font-medium transition-all duration-300 hover:bg-slate-900 hover:text-white hover:scale-105">
                         Xem tất cả
                     </a>
                 </div>
@@ -611,7 +657,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {{-- Card 1 --}}
-            <a href="{{ route('products.index', ['collection' => 'retro-sports']) }}" class="group block rounded-2xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500">
+            <a href="{{ route('collections.show', 'retro-sports') }}" class="group block rounded-2xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500">
                 <img src="{{ asset('images/banner/bst_retro.jpg') }}" alt="Retro Sports" class="w-full h-[520px] md:h-[620px] object-cover object-center group-hover:scale-105 transition-transform duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-transparent"></div>
                 <div class="absolute left-5 right-5 bottom-6 text-white">
@@ -621,7 +667,7 @@
             </a>
 
             {{-- Card 2 --}}
-            <a href="{{ route('products.index', ['collection' => 'snoopy']) }}" class="group block rounded-2xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500">
+            <a href="{{ route('collections.show', 'snoopy') }}" class="group block rounded-2xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500">
                 <img src="{{ asset('images/banner/bst_snoopy.jpg') }}" alt="Snoopy" class="w-full h-[520px] md:h-[620px] object-cover object-center group-hover:scale-105 transition-transform duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-transparent"></div>
                 <div class="absolute left-5 right-5 bottom-6 text-white">
@@ -630,7 +676,7 @@
             </a>
 
             {{-- Card 3 --}}
-            <a href="{{ route('products.index', ['collection' => 'mickey-friends']) }}" class="group block rounded-2xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500">
+            <a href="{{ route('collections.show', 'mickey-friends') }}" class="group block rounded-2xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500">
                 <img src="{{ asset('images/banner/bst_m&f.jpg') }}" alt="Mickey & Friends" class="w-full h-[520px] md:h-[620px] object-cover object-center group-hover:scale-105 transition-transform duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-transparent"></div>
                 <div class="absolute left-5 right-5 bottom-6 text-white">

@@ -47,6 +47,10 @@
 
 <body class="bg-white text-slate-900">
 
+    {{-- Toast & Modal Components --}}
+    @include('components.toast')
+    @include('components.modal-confirm')
+
     {{-- Thanh ưu đãi trên cùng (Redesigned with animations) --}}
     <div id="hz-topbar" class="hz-announcement-bar relative overflow-hidden">
         <div class="hanzo-container px-4 py-2.5">
@@ -189,17 +193,14 @@
                             <div class="hz-megamenu-title">Tất cả sản phẩm</div>
                             <ul class="space-y-3 hz-megamenu-list">
                                 <li>
-                                    <a href="{{ route('products.index', ['is_new' => 1]) }}"
+                                    <a href="{{ route('products.new-arrivals') }}"
                                        class="hz-megamenu-link">Sản phẩm mới</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('products.index', ['is_best_seller' => 1]) }}"
+                                    <a href="{{ route('products.best-sellers') }}"
                                        class="hz-megamenu-link">Bán chạy nhất</a>
                                 </li>
-                                <li>
-                                    <a href="{{ route('products.index', ['is_outlet' => 1]) }}"
-                                       class="hz-megamenu-link">OUTLET - Sale đến 50%</a>
-                                </li>
+                    
                             </ul>
                         </div>
 
@@ -209,7 +210,7 @@
                             <ul class="space-y-3 hz-megamenu-list">
                                 <li><a href="{{ route('category.show', 'ao-thun') }}" class="hz-megamenu-link">Áo thun</a></li>
                                 <li><a href="{{ route('category.show', 'ao-polo') }}" class="hz-megamenu-link">Áo polo</a></li>
-                                <li><a href="{{ route('category.show', 'ao-so-mi') }}" class="hz-megamenu-link">Áo sơ mi</a></li>
+                                <li><a href="{{ route('category.show', 'ao-somi') }}" class="hz-megamenu-link">Áo sơ mi</a></li>
                                 <li><a href="{{ route('category.show', 'ao-khoac') }}" class="hz-megamenu-link">Áo khoác</a></li>
                                 <li><a href="{{ route('category.show', 'hoodie') }}" class="hz-megamenu-link">Hoodie</a></li>
                             </ul>
@@ -219,7 +220,7 @@
                         <div>
                             <div class="hz-megamenu-title">Quần nam</div>
                             <ul class="space-y-3 hz-megamenu-list">
-                                <li><a href="{{ route('category.show', 'quan-jeans') }}" class="hz-megamenu-link">Quần jeans</a></li>
+                                <li><a href="{{ route('category.show', 'quan-jean') }}" class="hz-megamenu-link">Quần jeans</a></li>
                                 <li><a href="{{ route('category.show', 'quan-kaki-chino') }}" class="hz-megamenu-link">Quần kaki / chino</a></li>
                                 <li><a href="{{ route('category.show', 'quan-short') }}" class="hz-megamenu-link">Quần short</a></li>
                                 <li><a href="{{ route('category.show', 'quan-tay') }}" class="hz-megamenu-link">Quần tây</a></li>
@@ -265,15 +266,15 @@
                 </div>
 
                 {{-- Hàng mới --}}
-                <a href="{{ route('products.index', ['is_new' => 1]) }}"
+                <a href="{{ route('products.new-arrivals') }}"
                    class="pb-3 border-b-2 border-transparent hover:border-black hover:text-black">
                     Hàng mới
                 </a>
 
                 {{-- Hàng bán chạy --}}
-                <a href="{{ route('products.index') }}"
+                <a href="{{ route('products.best-sellers') }}"
                    class="pb-3 border-b-2 border-transparent hover:border-black hover:text-black">
-                    Tất cả sản phẩm
+                    Hàng bán chạy
                 </a>
 
                
@@ -491,7 +492,7 @@
             <nav class="px-2 space-y-1 text-slate-900 text-[15px] font-semibold">
                 <a href="{{ route('products.index', ['is_new' => 1]) }}" class="block px-3 py-3 rounded-lg hover:bg-slate-100">Hàng mới</a>
                 <a href="{{ route('products.index', ['is_best_seller' => 1]) }}" class="block px-3 py-3 rounded-lg hover:bg-slate-100">Hàng bán chạy</a>
-                <a href="{{ route('products.index', ['category' => 'denim']) }}" class="block px-3 py-3 rounded-lg hover:bg-slate-100">DENIM</a>
+                
 
                 {{-- Accordion: Sản phẩm --}}
                 <div class="border-t border-slate-200 my-2"></div>
@@ -502,10 +503,10 @@
                 <div class="pl-4 space-y-2 hidden" data-accordion-panel="products">
                     <a href="{{ route('category.show', 'ao-thun') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Áo thun</a>
                     <a href="{{ route('category.show', 'ao-polo') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Áo polo</a>
-                    <a href="{{ route('category.show', 'ao-so-mi') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Áo sơ mi</a>
+                    <a href="{{ route('category.show', 'ao-somi') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Áo sơ mi</a>
                     <a href="{{ route('category.show', 'ao-khoac') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Áo khoác</a>
                     <a href="{{ route('category.show', 'hoodie') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Hoodie</a>
-                    <a href="{{ route('category.show', 'quan-jeans') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Quần jeans</a>
+                    <a href="{{ route('category.show', 'quan-jean') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Quần jeans</a>
                     <a href="{{ route('category.show', 'quan-kaki-chino') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Quần kaki / chino</a>
                     <a href="{{ route('category.show', 'quan-short') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Quần short</a>
                     <a href="{{ route('category.show', 'quan-tay') }}" class="block px-3 py-2 rounded-lg hover:bg-slate-100 text-[14px] font-medium">Quần tây</a>
@@ -652,8 +653,57 @@
     {{-- Quick Add to Cart Modal --}}
     @include('components.quick-add-modal')
 
+    {{-- Image Lightbox Modal --}}
+    <div id="image-lightbox" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4">
+        <button id="lightbox-close" class="absolute top-4 right-4 w-10 h-10 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white text-2xl transition">
+            ✕
+        </button>
+        <img id="lightbox-image" src="" alt="" class="max-w-full max-h-[90vh] object-contain">
+    </div>
+
             <!-- SWIPER JS -->
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            // Simple Lightbox for Review Images
+            document.addEventListener('DOMContentLoaded', function() {
+                const lightbox = document.getElementById('image-lightbox');
+                const lightboxImage = document.getElementById('lightbox-image');
+                const closeBtn = document.getElementById('lightbox-close');
+
+                // Open lightbox
+                document.querySelectorAll('[data-lightbox]').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const imageUrl = this.getAttribute('href');
+                        lightboxImage.src = imageUrl;
+                        lightbox.classList.remove('hidden');
+                        lightbox.classList.add('flex');
+                        document.body.style.overflow = 'hidden';
+                    });
+                });
+
+                // Close lightbox
+                function closeLightbox() {
+                    lightbox.classList.add('hidden');
+                    lightbox.classList.remove('flex');
+                    document.body.style.overflow = '';
+                }
+
+                closeBtn.addEventListener('click', closeLightbox);
+                lightbox.addEventListener('click', function(e) {
+                    if (e.target === lightbox) {
+                        closeLightbox();
+                    }
+                });
+
+                // Close on Escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+                        closeLightbox();
+                    }
+                });
+            });
+        </script>
 
     @stack('scripts')
 </body>
