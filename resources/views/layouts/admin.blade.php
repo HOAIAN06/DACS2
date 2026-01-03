@@ -13,10 +13,12 @@
     <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
     <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-chat.css') }}">
     <script src="{{ asset('js/hanzo.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/admin.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/quick-add-modal.js') }}"></script>
     <script src="{{ asset('js/cart.js') }}"></script>
+    <script src="{{ asset('js/admin-chat.js') }}"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,6 +28,7 @@
     @php($adminNav = [
         ['label' => 'Dashboard', 'route' => 'admin.dashboard'],
         ['label' => 'Đơn hàng', 'route' => 'admin.orders.index'],
+        ['label' => 'Chat', 'route' => 'admin.chat.index'],
         ['label' => 'Sản phẩm', 'route' => 'admin.products.index'],
         ['label' => 'Danh mục', 'route' => 'admin.categories.index'],
         ['label' => 'Khách hàng', 'route' => 'admin.users.index'],

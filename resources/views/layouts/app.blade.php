@@ -705,6 +705,9 @@
             });
         </script>
 
+    {{-- Chat Component --}}
+    @include('components.chat-popup')
+
     @stack('scripts')
 </body>
 </html>

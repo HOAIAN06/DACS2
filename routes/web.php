@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductReviewController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -61,6 +62,17 @@ Route::middleware('auth')->group(function () {
         ->name('product.reviews.destroy');
     Route::post('/product/{product}/reviews/{review}/respond', [ProductReviewController::class, 'respond'])
         ->name('product.reviews.respond');
+
+    // Chat Routes
+    Route::prefix('chat')->name('chat.')->group(function () {
+        Route::get('/', [ChatController::class, 'index'])->name('index');
+        Route::post('/start', [ChatController::class, 'startConversation'])->name('start');
+        Route::get('/{conversation}', [ChatController::class, 'show'])->name('show');
+        Route::post('/{conversation}/message', [ChatController::class, 'store'])->name('store');
+        Route::get('/{conversation}/messages', [ChatController::class, 'getNewMessages'])->name('get-messages');
+        Route::post('/{conversation}/read', [ChatController::class, 'markAsRead'])->name('mark-read');
+        Route::post('/{conversation}/close', [ChatController::class, 'closeConversation'])->name('close');
+    });
 });
 
 // Giỏ hàng
@@ -131,6 +143,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/{category}/edit', [AdminCategoryController::class, 'edit'])->name('edit');
         Route::put('/{category}', [AdminCategoryController::class, 'update'])->name('update');
         Route::delete('/{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');
+    });
+
+    // Quản lý chat
+    Route::prefix('chat')->name('chat.')->group(function () {
+        Route::get('/', [ChatController::class, 'adminList'])->name('index');
+        Route::get('/{conversation}', [ChatController::class, 'adminShow'])->name('show');
+        Route::post('/{conversation}/message', [ChatController::class, 'adminStore'])->name('store');
+        Route::post('/{conversation}/mark-resolved', [ChatController::class, 'markResolved'])->name('mark-resolved');
+        Route::post('/{conversation}/close', [ChatController::class, 'closeConversation'])->name('close');
+        Route::post('/{conversation}/pin', [ChatController::class, 'togglePin'])->name('toggle-pin');
+        Route::delete('/{conversation}/delete', [ChatController::class, 'deleteConversation'])->name('delete');
+        Route::get('/{conversation}/messages', [ChatController::class, 'adminGetMessages'])->name('get-messages');
+        Route::get('/unread-count', [ChatController::class, 'adminUnreadCount'])->name('unread-count');
     });
 });
 

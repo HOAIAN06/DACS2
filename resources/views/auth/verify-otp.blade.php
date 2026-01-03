@@ -115,4 +115,96 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const otpInputs = document.querySelectorAll('.otp-digit');
+    const otpHidden = document.getElementById('otp-hidden');
+    const form = document.getElementById('otp-form');
+    
+    // Auto-focus first input
+    otpInputs[0].focus();
+    
+    // Handle input and auto-advance
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', function(e) {
+            const value = e.target.value;
+            
+            // Only allow numbers
+            if (!/^\d$/.test(value)) {
+                e.target.value = '';
+                return;
+            }
+            
+            // Auto-advance to next input
+            if (value && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+            }
+            
+            // Update hidden field
+            updateOtpHidden();
+        });
+        
+        // Handle backspace
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+        });
+        
+        // Handle paste
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const pastedData = e.clipboardData.getData('text').trim();
+            
+            if (/^\d{6}$/.test(pastedData)) {
+                pastedData.split('').forEach((char, i) => {
+                    if (otpInputs[i]) {
+                        otpInputs[i].value = char;
+                    }
+                });
+                otpInputs[5].focus();
+                updateOtpHidden();
+            }
+        });
+    });
+    
+    // Update hidden OTP field
+    function updateOtpHidden() {
+        const otp = Array.from(otpInputs).map(input => input.value).join('');
+        otpHidden.value = otp;
+    }
+    
+    // Ensure OTP is updated before form submission
+    form.addEventListener('submit', function(e) {
+        updateOtpHidden();
+        
+        if (otpHidden.value.length !== 6) {
+            e.preventDefault();
+            alert('Vui lòng nhập đầy đủ 6 chữ số OTP');
+            return false;
+        }
+    });
+    
+    // Timer countdown (10 minutes)
+    let timeLeft = 600; // 10 minutes in seconds
+    const timerElement = document.getElementById('timer');
+    
+    const countdown = setInterval(function() {
+        timeLeft--;
+        
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        
+        timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            timerElement.textContent = '0:00';
+            alert('Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới.');
+        }
+    }, 1000);
+});
+</script>
+
 @endsection

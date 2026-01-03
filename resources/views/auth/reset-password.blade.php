@@ -54,7 +54,6 @@
             <form method="POST" action="{{ route('reset.password') }}" class="space-y-4" id="reset-form" data-validate="true">
                 @csrf
                 <input type="hidden" name="email" value="{{ $email }}">
-                <input type="hidden" name="token" value="{{ $token }}">
 
                 <!-- New Password Input -->
                 <div>
@@ -70,21 +69,6 @@
                             placeholder="••••••••"
                             required
                         >
-                        <button type="button" class="absolute right-3 top-3.5 text-slate-400 hover:text-slate-600 toggle-password" data-target="password">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="mt-2 text-xs text-slate-600">
-                        <p class="font-semibold mb-1">Mật khẩu phải chứa:</p>
-                        <ul class="list-disc list-inside space-y-0.5">
-                            <li id="length-check" class="text-red-500">Ít nhất 8 ký tự</li>
-                            <li id="uppercase-check" class="text-red-500">Ít nhất 1 chữ hoa</li>
-                            <li id="lowercase-check" class="text-red-500">Ít nhất 1 chữ thường</li>
-                            <li id="number-check" class="text-red-500">Ít nhất 1 số</li>
-                        </ul>
                     </div>
                 </div>
 
@@ -102,14 +86,7 @@
                             placeholder="••••••••"
                             required
                         >
-                        <button type="button" class="absolute right-3 top-3.5 text-slate-400 hover:text-slate-600 toggle-password" data-target="password_confirmation">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
                     </div>
-                    <p id="confirm-check" class="text-red-500 text-xs mt-1 hidden">Mật khẩu xác nhận không khớp</p>
                 </div>
 
                 <!-- Submit Button -->
