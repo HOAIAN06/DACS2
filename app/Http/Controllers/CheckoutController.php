@@ -185,6 +185,22 @@ class CheckoutController extends Controller
 
             DB::commit();
 
+            // Gửi email xác nhận đơn hàng (không chặn luồng chính)
+            try {
+                \Mail::to($data['shipping_email'])
+                    ->queue(new \App\Mail\OrderConfirmationMail($order->fresh(['items.product', 'items.variant'])));
+
+                if (isset($order->user) && $order->user?->email && $order->user->email !== $data['shipping_email']) {
+                    \Mail::to($order->user->email)
+                        ->queue(new \App\Mail\OrderConfirmationMail($order->fresh(['items.product', 'items.variant'])));
+                }
+            } catch (\Throwable $mailEx) {
+                \Log::warning('Send order confirmation mail failed', [
+                    'order_id' => $order->id,
+                    'error' => $mailEx->getMessage(),
+                ]);
+            }
+
             return redirect()->route('home')
                 ->with('success', 'Đặt hàng thành công! Mã đơn hàng: ' . $order->code);
 

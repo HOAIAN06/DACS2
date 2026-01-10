@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\OrderItem;
 
 class Product extends Model
 {
@@ -34,6 +35,30 @@ class Product extends Model
         'total_sold' => 'integer',
     ];
 
+    /**
+     * Lấy tổng stock từ variants
+     * Nếu stock trên product = 0, tính từ tổng stock các variants
+     */
+    public function getTotalStockAttribute(): int
+    {
+        // Nếu product có stock > 0, dùng luôn
+        if ($this->attributes['stock'] > 0) {
+            return $this->attributes['stock'];
+        }
+
+        // Nếu stock = 0, tính từ variants
+        return $this->variants()->sum('stock') ?? 0;
+    }
+
+    /**
+     * Update stock của product từ tổng stock các variants
+     */
+    public function updateStockFromVariants(): void
+    {
+        $totalStock = $this->variants()->sum('stock') ?? 0;
+        $this->update(['stock' => $totalStock]);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -42,6 +67,11 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 
     public function mainImage()

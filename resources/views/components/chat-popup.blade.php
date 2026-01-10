@@ -1,11 +1,12 @@
 <!-- Chat Floating Button & Popup -->
-@auth
+@php($chatUser = auth()->user())
+@if($chatUser && !$chatUser->is_admin)
     <button type="button" class="chat-fab" id="chatFab" title="Chat với shop">
         <img src="{{ asset('icons/message.png') }}" alt="Chat" style="width: 28px; height: 28px;">
         <span class="badge" id="chatBadge" style="display: none;">0</span>
     </button>
 
-    <div class="chat-popup" id="chatPopup" data-user-id="{{ auth()->id() }}">
+    <div class="chat-popup" id="chatPopup" data-user-id="{{ $chatUser->id }}">
         <!-- Header -->
         <div class="chat-header">
             <div class="chat-header-info">
@@ -65,7 +66,7 @@
         <button type="button" class="chat-lightbox-close" id="chatLightboxClose" aria-label="Đóng">&times;</button>
         <img id="chatLightboxImage" src="" alt="Xem ảnh" />
     </div>
-@endauth
+@endif
 
 <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
 <script src="{{ asset('js/chat.js') }}"></script>

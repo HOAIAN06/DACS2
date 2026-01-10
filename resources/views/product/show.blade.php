@@ -544,6 +544,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Xác định action từ button được click
+        const submitter = e.submitter; // Button hoặc submit element được click
+        const actionValue = submitter?.value || 'add_to_cart';
+        
+        // Set action input
+        let actionInput = form.querySelector('input[name="action"]');
+        if (!actionInput) {
+            actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            form.appendChild(actionInput);
+        }
+        actionInput.value = actionValue;
+
         // Nếu OK thì submit form
         this.submit();
     });

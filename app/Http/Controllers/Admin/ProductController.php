@@ -117,6 +117,9 @@ class ProductController extends Controller
             }
         }
 
+        // Cập nhật stock của product từ tổng stock các variants
+        $product->updateStockFromVariants();
+
         return redirect()->route('admin.products.index')
             ->with('success', 'Tạo sản phẩm thành công.');
     }
@@ -219,6 +222,9 @@ class ProductController extends Controller
 
         $product->update($data);
 
+        // Cập nhật stock của product từ tổng stock các variants
+        $product->updateStockFromVariants();
+
         return redirect()->route('admin.products.index')
             ->with('success', 'Cập nhật sản phẩm thành công.');
     }
@@ -312,8 +318,22 @@ class ProductController extends Controller
     {
         // Manually retrieve product
         $product = Product::findOrFail($id);
+        $queryParams = $request->except(['_token', '_method']);
         
         \Log::info('Delete product: ' . $product->id . ' - ' . $product->name);
+
+        // Chỉ chặn xóa nếu sản phẩm đang nằm trong đơn chưa hoàn thành/đã hủy
+        $hasActiveOrders = $product->orderItems()
+            ->whereHas('order', function ($q) {
+                $q->whereNotIn('status', ['completed', 'canceled'])
+                  ->orWhereNull('status');
+            })
+            ->exists();
+
+        if ($hasActiveOrders) {
+            return redirect()->route('admin.products.index', $queryParams)
+                ->with('error', 'Sản phẩm đang thuộc đơn hàng chưa hoàn tất nên không thể xóa. Chỉ xóa được khi các đơn liên quan đã giao thành công hoặc đã hủy. Vui lòng ẩn sản phẩm để giữ lịch sử.');
+        }
         
         // Delete all product images
         foreach ($product->images as $image) {
@@ -333,8 +353,6 @@ class ProductController extends Controller
         \Log::info('Product deleted: ' . $product->id);
 
         // Preserve query parameters (page, filters, etc.)
-        $queryParams = $request->except(['_token', '_method']);
-        
         return redirect()->route('admin.products.index', $queryParams)
             ->with('success', 'Xóa sản phẩm thành công.');
     }

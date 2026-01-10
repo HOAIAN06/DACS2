@@ -26,18 +26,6 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('banners')) {
-            Schema::create('banners', function (Blueprint $table) {
-                $table->id();
-                $table->string('title')->nullable();
-                $table->string('image_url');
-                $table->string('link_url')->nullable();
-                $table->integer('position')->default(0);
-                $table->boolean('is_active')->default(true);
-                $table->timestamps();
-            });
-        }
-
         if (!Schema::hasTable('product_images')) {
             Schema::create('product_images', function (Blueprint $table) {
                 $table->id();
@@ -67,7 +55,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('product_variants');
         Schema::dropIfExists('product_images');
-        Schema::dropIfExists('banners');
         Schema::dropIfExists('products');
         Schema::dropIfExists('categories');
     }

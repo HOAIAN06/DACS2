@@ -137,6 +137,11 @@ class ChatController extends Controller
     {
         $user = Auth::user();
         
+        // Admin không thể sử dụng customer chat bubble
+        if ($user && $user->is_admin) {
+            return response()->json(['error' => 'Admin users cannot use customer chat'], 403);
+        }
+        
         // Kiểm tra xem đã có conversation nào chưa
         $existingConversation = Conversation::where('user_id', $user->id)->first();
         

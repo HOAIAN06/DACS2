@@ -103,6 +103,9 @@
         </div>
     </footer>
 
+    {{-- Chat floating widget (reuse customer chat so admin có thể test/trả lời nhanh) --}}
+    @include('components.chat-popup')
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     @stack('scripts')
 </body>

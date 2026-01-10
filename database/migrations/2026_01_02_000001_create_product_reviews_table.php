@@ -15,9 +15,12 @@ return new class extends Migration
 
         Schema::create('product_reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->unsignedInteger('product_id'); // Match products.id type
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('order_id')->nullable()->constrained()->nullOnDelete();
+            
+            // Add foreign key for product_id
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
             $table->tinyInteger('rating')->unsigned()->comment('1-5');
             $table->string('title', 191)->nullable();
             $table->text('content');

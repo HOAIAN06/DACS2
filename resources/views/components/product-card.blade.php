@@ -32,7 +32,7 @@
         default   => 'object-cover',
     };
 
-    $totalStock = $product->stock ?? 0;
+    $totalStock = $product->total_stock ?? 0;
 @endphp
 
 
